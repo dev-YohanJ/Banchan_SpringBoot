@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VueApplication {
+public class BanchanApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VueApplication.class, args);
+		SpringApplication.run(BanchanApplication.class, args);
 	}
 }
