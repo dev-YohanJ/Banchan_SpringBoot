@@ -4,4 +4,5 @@
 
 <mapper namespace="com.banchan.myhome.mybatis.mapper.BoardMapper">
 	
+	
 </mapper>
