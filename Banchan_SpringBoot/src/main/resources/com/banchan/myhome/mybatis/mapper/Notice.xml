@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.banchan.myhome.mybatis.mapper.NoticeMapper">
+	
+	<select id="getListCount" resultType="int">
+		select count(*) from notice
+	</select>
+	
+	<select id="getBoardList" parameterType="map" resultType="notice">
+		select * 
+		from (select rownum rnum, b.*
+			  from	(select * from notice) b
+			  where rownum &lt;= #{end}
+			  )
+		where rnum &gt;= #{start} and rnum &lt;= #{end}
+	</select>
+	
+	<update id="setReadCountUpdate" parameterType="int">
+		update 	notice
+		set 	BOARD_READCOUNT = BOARD_READCOUNT + 1
+		where 	BOARD_NUM = #{num}
+	</update>
+	
+	<select id="getDetail" parameterType="int" resultType="notice">
+		select 	* 
+		from 	notice
+		where 	BOARD_NUM = #{num}
+	</select>
+</mapper>
