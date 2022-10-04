@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.banchan.myhome.mybatis.mapper.BoardMapper">
+<mapper namespace="com.banchan.myhome.mybatis.mapper.ItemMapper">
 	
 	<insert id="insertItem">
 		<selectKey resultType="int" order="BEFORE"
@@ -19,7 +19,9 @@
 		 (#{id}, #{name}, #{seller}, #{price},
 		  #{image, jdbcType=VARCHAR}, #{original, jdbcType=VARCHAR},
 		  #{description}, #{location}, #{allergy}, 
-		  #{readcount}, #{regdate}, #{status})
+		  #{readcount}, sysdate, #{status})
 	</insert>
+
+	
 	
 </mapper>

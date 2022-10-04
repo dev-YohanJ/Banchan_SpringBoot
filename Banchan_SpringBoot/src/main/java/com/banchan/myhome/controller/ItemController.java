@@ -78,6 +78,7 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 	public String add(Item item)throws Exception {
 		
 		logger.info(item.getName());
+		logger.info(item.getSeller());
 		logger.info(item.getDescription());
 		logger.info(item.getAllergy());
 		
