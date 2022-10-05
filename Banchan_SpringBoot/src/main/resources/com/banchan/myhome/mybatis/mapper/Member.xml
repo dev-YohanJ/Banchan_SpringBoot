@@ -18,10 +18,11 @@
 		(#{id},#{password},#{name},#{phone},#{email},#{address},#{picture},#{rating},#{intro},#{nickname})
 	</insert>
 	
-	<update id="updatePicture">
+	<update id="Profile">
 		update 	member
-		set		board_readcount = board_readcount+1
-		where	board_num = #{number}
+		set		picture =#{picture, jdbcType=VARCHAR}, 
+		     	pic_original =#{pic_original, jdbcType=VARCHAR}
+		where	id = #{id}
 	</update>
 	
 <!-- 	<update id="update">

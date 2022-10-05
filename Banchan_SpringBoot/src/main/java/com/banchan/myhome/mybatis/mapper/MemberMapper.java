@@ -23,5 +23,5 @@ public interface MemberMapper {
 
 	public Member isnick(String nick);
 
-	public void updatePicutre(Member member);
+	public int Profile(Member member);
 }

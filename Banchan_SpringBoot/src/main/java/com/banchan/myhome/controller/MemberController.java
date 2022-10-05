@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -134,43 +135,59 @@ public class MemberController {
 	private String saveFolder;
 	
 	
-	@PostMapping(value = "/members/profile")
-	public String add(Member member)
-			throws Exception {
+	@PatchMapping(value = "/members")
+	public String ProfileAction(
+			Member memberdata,
+			@RequestParam (value="check", defaultValue="", required=false) String check
+			) throws Exception {
 		
+		String message="";
 		
-		MultipartFile uploadfile = member.getUploadfile();
+		MultipartFile uploadfile = memberdata.getUploadfile();	
 		
-		if (uploadfile!=null && !uploadfile.isEmpty()) {
-			String fileName = uploadfile.getOriginalFilename(); // 원래 파일명
-			member.setPic_original(fileName); // 원래 파일명 사진
-			
-			
-			logger.info(saveFolder);
-			File file = new File(saveFolder);
-			if(!file.exists()) {
-				if(file.mkdir()) {
-					logger.info("폴더 생성");
-				} else {
-					logger.info("폴더 생성 실패");
-				}
+		logger.info(saveFolder);
+		File file = new File(saveFolder);
+		if(!file.exists()) {
+			if(file.mkdir()) {
+				logger.info("폴더 생성");
 			} else {
-				logger.info("폴더존재");
+				logger.info("폴더 생성 실패");
 			}
-			
+		} else {
+			logger.info("폴더존재");
+		}
+		
+		// 파일 변경한 경우
+		if (uploadfile!=null && !uploadfile.isEmpty()) {
+			logger.info("파일 변경되었습니다.");
+				
+			String fileName = uploadfile.getOriginalFilename(); // 원래 파일명
+			memberdata.setPic_original(fileName);
+				
 			String fileDBName = fileDBName(fileName, saveFolder);
-			logger.info("fileDBName = " + fileDBName);
-
+				
 			// transferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장합니다.
 			uploadfile.transferTo(new File(saveFolder + fileDBName));
-
+				
 			// 바뀐 파일명으로 저장
-			member.setPicture(fileDBName);
-		}
-
+			memberdata.setPicture(fileDBName);
+		} else {
+			logger.info("선택 파일 없습니다.");
+			memberdata.setPicture(""); // ""로 초기화 합니다.
+			memberdata.setPic_original(""); // ""로 초기화 합니다.
+		} // else end
 		
-		memberservice.updatePicture(member); // 지정메서드 호출
-		return "success";
+		// DAO에서 수정 메서드 호출하여 수정합니다.
+		int result = memberservice.Profile(memberdata);
+		// 수정에 실패한 경우
+		if (result == 0) {
+			message="fail";
+		} else { //수정 성공의 경우
+			logger.info("게시판 수정 완료");
+			message = "success";
+		}
+		
+		return message;
 	}
 
 	private String fileDBName(String fileName, String saveFolder) {

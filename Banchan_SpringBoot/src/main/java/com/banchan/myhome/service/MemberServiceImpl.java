@@ -103,8 +103,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updatePicture(Member member) {
-		dao.updatePicutre(member);
+	public int Profile(Member member) {
+		return dao.Profile(member);
 	}
 
 	
