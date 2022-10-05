@@ -13,5 +13,13 @@ public interface NoticeService {
 	public Notice getDetail(int num);
 	
 	public int setReadCountUpdate(int num);
+
+	public void insertBoard(Notice board);
+
+	public boolean isBoardWriter(int num, String pass);
+
+	public int boardDelete(int num);
+
+	public int boardModify(Notice boarddata);
 	
 }
