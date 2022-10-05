@@ -23,5 +23,5 @@ public interface MemberService {
 
 	public int isnick(String nick);
 
-	public void updatePicture(Member member);
+	public int Profile(Member memberdata);
 }
