@@ -1,14 +1,19 @@
 package com.banchan.myhome.controller;
 
+import java.io.File;
 import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.banchan.myhome.domain.Notice;
 import com.banchan.myhome.service.NoticeService;
@@ -68,5 +73,61 @@ public class NoticeController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("board", board);	
 		return map;
+	}
+	
+	@PostMapping(value = "/notice/new")
+	//FormData에 담아서 보냈을 때는 @RequestBody가 필요 없다.
+	public String add(Notice board) throws Exception {
+		noticeService.insertBoard(board);//저장메서드 호출
+		return "success";
+	}
+	
+	@DeleteMapping("/notice/{num}")
+	public int BoardDeleteAction(String password, @PathVariable int num) {
+		//글 삭제 명령을 요청한 사용자가 글을 작성한 사용자인지 판단하기 위해
+		//입력한 비밀번호와 저장된 비밀번호를 비교하여 일치하면 삭제한다.
+		logger.info("비밀번호=" + password);
+		logger.info("글번호=" + num);
+		boolean usercheck = noticeService.isBoardWriter(num, password);
+		//비밀번호 일치하지 않는 경우
+		if (usercheck == false) {
+			return 0;
+		}
+		
+		//비밀번호 일치하는 경우 삭제 처리
+		int result = noticeService.boardDelete(num);
+		
+		//삭제 처리 실패한 경우
+		if (result == 0) {
+			return -1;
+		}
+		
+		//삭제 처리 성공한 경우 - 글 목록 보기 요청을 전송하는 부분
+		logger.info("게시판 삭제 성공");
+		return 1;
+	}
+	
+	@PatchMapping("/notice")
+	public String BoardModifyAction(Notice boarddata) throws Exception {
+		
+		boolean usercheck = 
+			noticeService.isBoardWriter(boarddata.getBOARD_NUM(), boarddata.getBOARD_PASS());
+		String message = "";
+		
+		//비밀번호가 다른 경우
+		if (usercheck == false) {
+			return "Nopass";
+		}
+		
+		int result = noticeService.boardModify(boarddata);
+		
+		if (result == 0) {
+			logger.info("게시판 수정 실패");
+			message = "fail";
+		} else {
+			logger.info("게시판 수정 완료");
+			message = "success";
+		}
+		return message;
 	}
 }

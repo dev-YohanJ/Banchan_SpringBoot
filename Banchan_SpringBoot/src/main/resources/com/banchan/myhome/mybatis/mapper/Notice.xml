@@ -15,6 +15,7 @@
 			  where rownum &lt;= #{end}
 			  )
 		where rnum &gt;= #{start} and rnum &lt;= #{end}
+		order by rnum desc
 	</select>
 	
 	<update id="setReadCountUpdate" parameterType="int">
@@ -28,4 +29,39 @@
 		from 	notice
 		where 	BOARD_NUM = #{num}
 	</select>
+	
+	<insert id="insertBoard" parameterType="notice">
+		<selectKey resultType="int" order="BEFORE" keyProperty="BOARD_NUM">
+			select nvl(max(BOARD_NUM),0)+1 from notice
+		</selectKey>
+		insert into notice (
+		BOARD_NUM,
+		BOARD_PASS, BOARD_SUBJECT,
+		BOARD_CONTENT, BOARD_READCOUNT,
+		BOARD_DATE)
+		values (
+		#{BOARD_NUM},
+		#{BOARD_PASS}, #{BOARD_SUBJECT},
+		#{BOARD_CONTENT}, #{BOARD_READCOUNT},
+		sysdate)
+	</insert>
+	
+	<select id="isBoardWriter" parameterType="map" resultType="notice">
+		select 	* 
+		from 	notice
+		where 	BOARD_NUM = #{num}
+		and		BOARD_PASS = #{pass}
+	</select>
+	
+	<delete id="boardDelete">
+		delete from notice 
+		where BOARD_NUM  = #{num}
+	</delete>
+	
+	<update id="boardModify" parameterType="notice">
+		update 	notice
+		set 	BOARD_SUBJECT = #{BOARD_SUBJECT}, 
+				BOARD_CONTENT = #{BOARD_CONTENT}
+		where 	BOARD_NUM = #{BOARD_NUM}
+	</update>
 </mapper>

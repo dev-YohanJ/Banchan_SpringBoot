@@ -46,5 +46,32 @@ public class NoticeServiceImpl implements NoticeService {
 		return dao.setReadCountUpdate(num);
 	}
 
+	@Override
+	public void insertBoard(Notice board) {
+		dao.insertBoard(board);
+	}
+
+	@Override
+	public boolean isBoardWriter(int num, String pass) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("num", num);
+		map.put("pass", pass);
+		Notice result = dao.isBoardWriter(map);
+		if(result==null)
+			return false;
+		else
+			return true;
+	}
+
+	@Override
+	public int boardDelete(int num) {
+		return dao.boardDelete(num);
+	}
+
+	@Override
+	public int boardModify(Notice modifyboard) {
+		return dao.boardModify(modifyboard);
+	}
+
 
 }

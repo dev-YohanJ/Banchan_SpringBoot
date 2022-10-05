@@ -17,4 +17,12 @@ public interface NoticeMapper {
 
 	public int setReadCountUpdate(int num);
 
+	public void insertBoard(Notice board);
+
+	public Notice isBoardWriter(HashMap<String, Object> map);
+
+	public int boardDelete(int num);
+
+	public int boardModify(Notice modifyboard);
+
 }
