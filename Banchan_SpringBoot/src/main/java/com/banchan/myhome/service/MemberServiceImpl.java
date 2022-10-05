@@ -24,7 +24,13 @@ public class MemberServiceImpl implements MemberService {
 		Member rmember = dao.isId(id);
 		return (rmember==null) ? -1 : 1;	//-1은 아이디가 존재하지 않는 경우, 1은 존재하는 경우
 	}
-
+	
+	@Override
+	public int isnick(String nick) {
+		Member rmember = dao.isnick(nick);
+		return (rmember==null) ? -1 : 1;	//-1은 아이디가 존재하지 않는 경우, 1은 존재하는 경우
+	}
+	
 	@Override
 	public int insert(Member m) {
 		return dao.insert(m);
@@ -95,4 +101,11 @@ public class MemberServiceImpl implements MemberService {
 	public int delete(String id) {
 		return dao.delete(id);
 	}
+
+	@Override
+	public void updatePicture(Member member) {
+		dao.updatePicutre(member);
+	}
+
+	
 }

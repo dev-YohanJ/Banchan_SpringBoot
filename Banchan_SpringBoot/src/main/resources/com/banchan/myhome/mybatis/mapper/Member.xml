@@ -8,11 +8,21 @@
 		select * from member where id = #{id}
 	</select>
 	
+	<select id="isnick" resultType="member">
+		select * from member where nickname = #{nickname}
+	</select>
+	
 	<insert id="insert">
 		insert into member
 		values
 		(#{id},#{password},#{name},#{phone},#{email},#{address},#{picture},#{rating},#{intro},#{nickname})
 	</insert>
+	
+	<update id="updatePicture">
+		update 	member
+		set		board_readcount = board_readcount+1
+		where	board_num = #{number}
+	</update>
 	
 <!-- 	<update id="update">
 		update 	member

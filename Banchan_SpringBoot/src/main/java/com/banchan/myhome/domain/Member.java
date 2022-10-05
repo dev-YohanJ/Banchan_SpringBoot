@@ -1,5 +1,7 @@
 package com.banchan.myhome.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Member {
 	private String id;
 	private String password;
@@ -7,11 +9,26 @@ public class Member {
 	private String phone;
 	private String email;
 	private String address;
-	private String picture;
+	private String picture; // DB에 저장될 board_file
 	private int rating;
 	private String intro;
 	private String nickname;
 	
+	private String pic_original; // board_original
+	private MultipartFile uploadfile;
+	
+	public String getPic_original() {
+		return pic_original;
+	}
+	public void setPic_original(String pic_original) {
+		this.pic_original = pic_original;
+	}
+	public MultipartFile getUploadfile() {
+		return uploadfile;
+	}
+	public void setUploadfile(MultipartFile uploadfile) {
+		this.uploadfile = uploadfile;
+	}
 	public String getId() {
 		return id;
 	}

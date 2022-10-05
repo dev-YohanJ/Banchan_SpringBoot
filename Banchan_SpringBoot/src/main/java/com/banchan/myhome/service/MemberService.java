@@ -20,4 +20,8 @@ public interface MemberService {
 	public List<Member> getSearchList(String index, String search_word, int page, int limit);
 	
 	public int getSearchListCount(String index, String search_word);
+
+	public int isnick(String nick);
+
+	public void updatePicture(Member member);
 }
