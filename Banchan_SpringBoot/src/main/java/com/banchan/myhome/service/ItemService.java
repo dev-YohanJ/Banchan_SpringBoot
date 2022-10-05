@@ -4,6 +4,6 @@ import com.banchan.myhome.domain.Item;
 
 public interface ItemService {
 
-	void insertItem(Item item);
+	public void insertItem(Item item);
 	
 }
