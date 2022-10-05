@@ -20,4 +20,8 @@ public interface MemberMapper {
 	public int getSearchListCount(Map<String, Object> map);
 
 	public List<Member> getSearchList(Map<String, Object> map);
+
+	public Member isnick(String nick);
+
+	public void updatePicutre(Member member);
 }
