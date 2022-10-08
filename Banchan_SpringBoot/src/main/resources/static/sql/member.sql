@@ -9,7 +9,7 @@ create table member(
    picture      varchar2(50) default 'basicpic',
    pic_original	varchar2(50),
    rating      	number,
-   intro      	varchar2(200),
+   intro      	varchar2(1000),
    nickname   	varchar2(20)
 );
 

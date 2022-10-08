@@ -2,6 +2,9 @@ package com.banchan.myhome.controller;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.slf4j.Logger;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.banchan.myhome.domain.Item;
-import com.banchan.myhome.service.CommentService;
 import com.banchan.myhome.service.ItemService;
 
 @RestController
@@ -23,7 +25,7 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 	private ItemService itemService;
 	
 	@Autowired
-	public ItemController(ItemService itemService, CommentService commentService) {
+	public ItemController(ItemService itemService) {
 		this.itemService=itemService;
 	}
 	
@@ -74,48 +76,183 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		return fileDBName;
 	}
 	
+	//상품등록
 	@PostMapping(value ="/product_new")
 	public String add(Item item)throws Exception {
 		
-		logger.info(item.getName());
-		logger.info(item.getSeller());
-		logger.info(item.getDescription());
-		logger.info(item.getAllergy());
-		
-		MultipartFile uploadfile = item.getUploadfile();
-		
-		if(uploadfile!=null && !uploadfile.isEmpty()) {
-			String fileName = uploadfile.getOriginalFilename(); //원래 파일명
-			item.setOriginal(fileName); //원래 파일명 저장
+		logger.info("제목: "+item.getName());
+		logger.info("판매자: "+item.getSeller());
+		logger.info("내용: "+item.getDescription());
+//		logger.info("알러지: "+item.getAllergy());
 			
-			//c:/upload 생성합니다.
-			//이전에는 직접 폴더를 생성했다면 지금은 File의 mkdir()로 폴더를 생성합니다.
-			logger.info(saveFolder);
-			File file = new File(saveFolder);
-			if(!file.exists()) {
-				if(file.mkdir()) {
-					logger.info("폴더 생성");
+		
+		MultipartFile[] uploadfile = item.getUploadfile();
+		logger.info("갯수 : " + uploadfile.length);
+		
+		String uploadfilenames = null;
+		
+		if (uploadfile!=null) {
+		//c:/upload 생성합니다.
+				//이전에는 직접 폴더를 생성했다면 지금은 File의 mkdir()로 폴더를 생성합니다.
+				logger.info(saveFolder);
+				File file = new File(saveFolder);
+				if(!file.exists()) {
+					if(file.mkdir()) {
+						logger.info("폴더 생성");
+					} else {
+						logger.info("폴더 생성 실패");
+					}
 				} else {
-					logger.info("폴더 생성 실패");
+					logger.info("폴더존재");
 				}
-			} else {
-				logger.info("폴더존재");
-			}
+				
+			for(MultipartFile loadfile : uploadfile ) {
+			String fileName = loadfile.getOriginalFilename(); //원래 파일명
+			item.setOriginal(fileName); //원래 파일명 저장
 			
 			String fileDBName = fileDBName(fileName, saveFolder);
 			logger.info("fileDBNave = " + fileDBName);
 			
 			// transferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장합니다.
-			uploadfile.transferTo(new File(saveFolder + fileDBName));
+			loadfile.transferTo(new File(saveFolder + fileDBName));
+			uploadfilenames += fileDBName + ",";
 			
+			}
 			//바뀐 파일명으로 저장
-			item.setImage(fileDBName);				//테이블을 추가해야할지?
+			item.setImage(uploadfilenames);	
 		}
 		
 		itemService.insertItem(item); //저장메서드 호출
 		return "success";
 	}
-		
-		
 	
+	//상품 리스트
+	@GetMapping(value = "/item")
+	public Map<String,Object> itemListAjax(
+			@RequestParam(value="page",defaultValue="1", required=false) int page,
+			@RequestParam(value="limit",defaultValue="10", required=false) int limit
+			) {
+		
+		int listcount = itemService.getListCount(); // 총 리스트 수를 받아옴
+		
+		// 총 페이지 수
+		int maxpage = (listcount + limit - 1) / limit;
+		
+		//만약 maxpage가 2이고 page도 2인 경우
+		//2페이지의 목록의 수가 한 개인 상태에서 남은 항목 한개를 삭제한 경우
+		//maxpage=1이 되고 page=2가 됩니다. 이런 경우 page는 maxpage로 수정합니다.
+		if(page>maxpage) {
+			page=maxpage;
+		}
+		
+		
+		// 현재 페이지에 보여줄 시작 페이지 수(1, 11, 21 등...)
+		int startpage = ((page - 1) / 10) * 10 + 1;
+		
+		// 현재 페이지에 보여줄 마지막 페이지 수(10, 20, 30 등...)
+		int endpage = startpage + 10 - 1;
+		
+		if(endpage > maxpage)
+			endpage = maxpage;
+		
+		List<Item> boardlist = itemService.getItemList(page, limit); // 리스트를 받아옴
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
+		map.put("maxpage", maxpage);
+		map.put("startpage", startpage);
+		map.put("endpage", endpage);
+		map.put("listcount", listcount);
+		map.put("boardlist", boardlist);
+		map.put("limit", limit);
+		return map;
+	}
+	
+	//게시판 사용될 정보 구하기
+	@GetMapping(value= {"/items/{num}"})
+	public Map<String, Object> Detail(@PathVariable int num) {
+		Item item = itemService.getDetail(num);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("item", item);
+		return map;
+	}
+	
+	//상품 삭제
+	@DeleteMapping("/items/{num}")
+	public int ItemDeleteAction(
+			   String password, @PathVariable int num
+			) {
+		// 글 삭제 명령을 요청한 사용자가 글을 작성한 사용자인지 판단하기 위해
+		// 입력한 비밀번호와 저장된 비밀번호를 비교하여 일치하면 삭제합니다.
+		logger.info("글번호=" + num);
+		
+		
+		// 비밀번호 일치하는 경우 삭제 처리합니다.
+		int result = itemService.itemDelete(num);
+		
+		// 삭제 처리 실패한 경우
+		if (result == 0) {
+			return -1;
+		} 
+		
+		//삭제 처리 성공한 경우 - 글 목록 보기 요청을 전송하는 부분입니다.
+		logger.info("게시판 삭제 성공");
+		return 1;
+	}
+	
+	
+	//상품 수정
+	@PatchMapping("/items")
+	public String ItemModifyAction(
+			Item itemdata,
+			@RequestParam (value="check", defaultValue="", required=false) String check
+			) throws Exception {
+		
+
+		String message="";
+		
+		MultipartFile[] uploadfile = itemdata.getUploadfile();
+		logger.info("갯수 : " + uploadfile.length);
+		
+		String uploadfilenames = null;
+		
+		if (check != null && !check.equals("")) { //기존파일 그대로 사용하는 경우입니다.
+			logger.info("기존파일 그대로 사용합니다." + check);
+			itemdata.setOriginal(check);
+		} else {
+			//파일 변경한 경우
+			if(uploadfile!=null) {
+				for(MultipartFile loadfile : uploadfile) {
+					logger.info("파일 변경되었습니다.");
+					
+					String fileName = loadfile.getOriginalFilename(); //원래 파일명
+					itemdata.setOriginal(fileName);
+					
+					String fileDBName = fileDBName(fileName, saveFolder);
+					
+					//tranceferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장합니다.
+					loadfile.transferTo(new File(saveFolder + fileDBName));
+					uploadfilenames += fileDBName + ",";
+				}
+				//바뀐 파일명으로 저장
+				itemdata.setImage(uploadfilenames);
+			} else {
+				logger.info("선택 파일 없습니다.");
+				itemdata.setImage("");//""로 초기화 합니다.
+				itemdata.setOriginal("");//""로 초기화 합니다.
+			}//else end
+		}//else end
+	
+		
+		//DAO에서 수정 메서드 호출하여 수정합니다.
+		int result = itemService.itemModify(itemdata);
+		//수정에 실패한 경우
+		if (result == 0) {
+			message="fail";
+		} else { //수정 성공의 경우
+			logger.info("게시판 수정 완료");
+			message = "success";
+		}
+		return message;
+	}
 }

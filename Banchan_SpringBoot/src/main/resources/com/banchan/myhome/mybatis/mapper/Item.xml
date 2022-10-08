@@ -21,6 +21,52 @@
 		  #{description}, #{location}, #{allergy}, 
 		  #{readcount}, sysdate, #{status})
 	</insert>
+	
+	
+	<select id="getListCount" resultType="int">
+		select count(*) from item
+	</select>
+	
+	
+	<select id="getItemList" resultType="item">
+		select * from 
+		  ( select rownum rnum, b.*
+		    from (select * from item) b
+		    where rownum &lt;=  #{end}      
+		   ) 
+	     where rnum &gt;= #{start} and rnum  &lt;=  #{end}
+	</select>
+	
+	
+	<update id="setReadCountUpdate">
+		update item
+		set readcount=readcount+1
+		where id=#{num}
+	</update>
+	
+	<select id="getDetail" parameterType="int" resultType="item">
+		select 	* 
+		from 	item
+		where 	id = #{id}
+	</select>
+	
+	
+	<update id="itemModify">
+	  update item 
+	  set 
+		     name=#{name},
+		     description=#{description},
+		     image=#{image, jdbcType=VARCHAR}, 
+		     original=#{original, jdbcType=VARCHAR}
+	  where  id=#{id}
+	</update>
+	
+	<delete id="itemDelete">
+		<![CDATA[
+			delete from item
+			where id=#{id} 
+		]]>
+	</delete>
 
 	
 	

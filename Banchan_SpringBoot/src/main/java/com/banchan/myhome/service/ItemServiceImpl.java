@@ -1,5 +1,8 @@
 package com.banchan.myhome.service;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,49 @@ public class ItemServiceImpl implements ItemService {
 		logger.info("Impl :" + item.getName());
 		
 		dao.insertItem(item);
+	}
+
+	@Override
+	public int getListCount() {
+		return dao.getListCount();
+	}
+
+	@Override
+	public List<Item> getItemList(int page, int limit) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		int startrow=(page-1)*limit+1;
+		int endrow=startrow+limit-1;
+		map.put("start", startrow);
+		map.put("end", endrow);
+		return dao.getItemList(map);
+	}
+
+	@Override
+	public Item getDetail(int num) {
+		if(setReadCountUpdate(num)!=1)
+			return null;
+		return dao.getDetail(num);
+	}
+	
+	@Override
+	public int setReadCountUpdate(int num) {
+		return dao.setReadCountUpdate(num);
+	}
+
+
+	@Override
+	public int itemModify(Item modifyboard) {
+		return dao.itemModify(modifyboard);
+	}
+
+	@Override
+	public int itemDelete(int num) {
+		int result=0;
+		Item item = dao.getDetail(num);
+		if(item != null) {
+			result=dao.itemDelete(item);
+		}
+		return result;
 	}
 
 

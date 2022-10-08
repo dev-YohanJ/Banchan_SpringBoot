@@ -14,6 +14,9 @@ create table item(
    status 			number
 );
 
+alter table item modify image varchar(300);
+alter table item modify original varchar(300);
+
 drop sequence itemId_seq;
 create sequence itemId_seq;
 

@@ -107,5 +107,10 @@ public class MemberServiceImpl implements MemberService {
 		return dao.Profile(member);
 	}
 
+	@Override
+	public int nick(String id, String nick) {
+		return dao.nick(id, nick);
+	}
+
 	
 }
