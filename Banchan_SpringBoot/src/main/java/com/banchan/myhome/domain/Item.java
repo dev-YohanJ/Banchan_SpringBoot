@@ -16,7 +16,7 @@ public class Item {
 	private String regdate;		//등록일
 	private int status;			//판매여부
 	
-	private MultipartFile uploadfile;
+	private MultipartFile[] uploadfile;
 	private String original;	//첨부될 파일의 이름
 	
 	public int getId() {
@@ -86,10 +86,10 @@ public class Item {
 		this.status = status;
 	}
 	
-	public MultipartFile getUploadfile() {
+	public MultipartFile[] getUploadfile() {
 		return uploadfile;
 	}
-	public void setUploadfile(MultipartFile uploadfile) {
+	public void setUploadfile(MultipartFile[] uploadfile) {
 		this.uploadfile = uploadfile;
 	}
 	public String getOriginal() {
