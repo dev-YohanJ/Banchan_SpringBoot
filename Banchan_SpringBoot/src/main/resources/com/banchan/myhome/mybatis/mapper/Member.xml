@@ -15,13 +15,19 @@
 	<insert id="insert">
 		insert into member
 		values
-		(#{id},#{password},#{name},#{phone},#{email},#{address},#{picture},#{rating},#{intro},#{nickname})
+		(#{id},#{password},#{name},#{phone},#{email},#{address},#{picture},#{pic_original},#{rating},#{intro},#{nickname})
 	</insert>
 	
 	<update id="Profile">
 		update 	member
 		set		picture =#{picture, jdbcType=VARCHAR}, 
 		     	pic_original =#{pic_original, jdbcType=VARCHAR}
+		where	id = #{id}
+	</update>
+	
+	<update id="nick">
+		update	member
+		set 	nickname = #{nick}
 		where	id = #{id}
 	</update>
 	

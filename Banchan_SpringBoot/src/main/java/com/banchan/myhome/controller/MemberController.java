@@ -183,7 +183,7 @@ public class MemberController {
 		if (result == 0) {
 			message="fail";
 		} else { //수정 성공의 경우
-			logger.info("게시판 수정 완료");
+			logger.info("프로필 수정 완료");
 			message = "success";
 		}
 		
@@ -229,6 +229,15 @@ public class MemberController {
 		String fileDBName = File.separator + year + "-" + month + "-" + date + File.separator + refileName;
 		logger.info("fileDBName = " + fileDBName);
 		return fileDBName;
+	}
+	
+	@PatchMapping(value = "/members/nick")
+	public int nick(
+			@RequestParam(value="id", defaultValue="") String id,
+			@RequestParam(value="nickname", defaultValue="") String nick) {
+		logger.info(id+nick);
+		return memberservice.nick(id, nick);
+		
 	}
 	
 }
