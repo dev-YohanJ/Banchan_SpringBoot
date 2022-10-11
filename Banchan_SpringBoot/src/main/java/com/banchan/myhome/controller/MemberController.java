@@ -91,7 +91,7 @@ public class MemberController {
 	@GetMapping(value = "/members")
 	public Map<String,Object> memberList(
 		@RequestParam(value="page", defaultValue="1", required=false) int page,
-		@RequestParam(value="limit", defaultValue="3", required=false) int limit,
+		@RequestParam(value="limit", defaultValue="10", required=false) int limit,
 		@RequestParam(value="search_field", defaultValue="") String index,
 		@RequestParam(value="search_word", defaultValue="") String search_word) {
 		

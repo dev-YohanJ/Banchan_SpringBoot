@@ -45,7 +45,7 @@
 		where id = #{id}
 	</delete>
 	
-<!-- 	<select id="getSearchList" resultType="member">
+ 	<select id="getSearchList" resultType="member">
 		select *
 		from (select rownum rnum, b.*
 			  from (select * 
@@ -73,11 +73,9 @@
 				<choose>
 					<when test='index=="I"'>id</when>
 					<when test='index=="N"'>name</when>
-					<when test='index=="A"'>age</when>
-					<when test='index=="G"'>gender</when>
 				</choose>
 				like #{search_word}
 			</foreach>
 		</if>
-	</sql> -->
+	</sql>
 </mapper>

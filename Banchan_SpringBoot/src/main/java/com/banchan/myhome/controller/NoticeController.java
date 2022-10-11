@@ -1,6 +1,5 @@
 package com.banchan.myhome.controller;
 
-import java.io.File;
 import java.util.*;
 
 import org.slf4j.Logger;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.banchan.myhome.domain.Notice;
 import com.banchan.myhome.service.NoticeService;
