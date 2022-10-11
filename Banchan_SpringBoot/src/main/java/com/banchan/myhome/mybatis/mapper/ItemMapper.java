@@ -27,11 +27,10 @@ public interface ItemMapper {
 	public int setReadCountUpdate(int num);
 	
 	//글 수정
-	public int itemModify(Item modifyboard);
+	public int itemModify(Item modifyitem);
 		
 	//글 삭제
 	public int itemDelete(Item board);
-	
-	
 
+	
 }

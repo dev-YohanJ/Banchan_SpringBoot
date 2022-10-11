@@ -20,10 +20,9 @@ public interface ItemService {
 	
 	//조회수 업데이트
 	public int setReadCountUpdate(int num);
-
 	
 	// 글 수정
-	public int itemModify(Item modifyboard);
+	public int itemModify(Item modifyitem);
 
 	// 글 삭제
 	public int itemDelete(int num);

@@ -178,9 +178,9 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 	}
 	
 	//상품 삭제
-	@DeleteMapping("/items/{num}")
+	@DeleteMapping("/items")
 	public int ItemDeleteAction(
-			   String password, @PathVariable int num
+			   @PathVariable int num
 			) {
 		// 글 삭제 명령을 요청한 사용자가 글을 작성한 사용자인지 판단하기 위해
 		// 입력한 비밀번호와 저장된 비밀번호를 비교하여 일치하면 삭제합니다.
@@ -190,8 +190,10 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		// 비밀번호 일치하는 경우 삭제 처리합니다.
 		int result = itemService.itemDelete(num);
 		
+		
 		// 삭제 처리 실패한 경우
 		if (result == 0) {
+			logger.info("게시판 삭제 실패");
 			return -1;
 		} 
 		
@@ -208,44 +210,52 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 			@RequestParam (value="check", defaultValue="", required=false) String check
 			) throws Exception {
 		
-
 		String message="";
 		
-		MultipartFile[] uploadfile = itemdata.getUploadfile();
-		logger.info("갯수 : " + uploadfile.length);
+//		MultipartFile[] uploadfile = itemdata.getUploadfile();
+//		logger.info("갯수 : " + uploadfile.length);
 		
 		String uploadfilenames = null;
 		
-		if (check != null && !check.equals("")) { //기존파일 그대로 사용하는 경우입니다.
-			logger.info("기존파일 그대로 사용합니다." + check);
-			itemdata.setOriginal(check);
-		} else {
-			//파일 변경한 경우
-			if(uploadfile!=null) {
-				for(MultipartFile loadfile : uploadfile) {
-					logger.info("파일 변경되었습니다.");
-					
-					String fileName = loadfile.getOriginalFilename(); //원래 파일명
-					itemdata.setOriginal(fileName);
-					
-					String fileDBName = fileDBName(fileName, saveFolder);
-					
-					//tranceferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장합니다.
-					loadfile.transferTo(new File(saveFolder + fileDBName));
-					uploadfilenames += fileDBName + ",";
-				}
-				//바뀐 파일명으로 저장
-				itemdata.setImage(uploadfilenames);
-			} else {
-				logger.info("선택 파일 없습니다.");
-				itemdata.setImage("");//""로 초기화 합니다.
-				itemdata.setOriginal("");//""로 초기화 합니다.
-			}//else end
-		}//else end
+//		if (check != null && !check.equals("")) { //기존파일 그대로 사용하는 경우입니다.
+//			logger.info("기존파일 그대로 사용합니다." + check);
+//			itemdata.setOriginal(check);
+//		} else {
+//			//파일 변경한 경우
+//			if(uploadfile!=null) {
+//				for(MultipartFile loadfile : uploadfile) {
+//					logger.info("파일 변경되었습니다.");
+//					
+//					String fileName = loadfile.getOriginalFilename(); //원래 파일명
+//					itemdata.setOriginal(fileName);
+//					
+//					String fileDBName = fileDBName(fileName, saveFolder);
+//					
+//					//tranceferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장합니다.
+//					loadfile.transferTo(new File(saveFolder + fileDBName));
+//					uploadfilenames += fileDBName + ",";
+//				}
+//				//바뀐 파일명으로 저장
+//				itemdata.setImage(uploadfilenames);
+//			} else {
+//				logger.info("선택 파일 없습니다.");
+//				itemdata.setImage("");//""로 초기화 합니다.
+//				itemdata.setOriginal("");//""로 초기화 합니다.
+//			}//else end
+//		}//else end
+		
+		logger.info("글 번호 : " + itemdata.getId());
+		logger.info("글 작성자 :" + itemdata.getSeller());
+		logger.info("글 제목 :" + itemdata.getName());
+		logger.info("글 가격 :" + itemdata.getPrice());
+		logger.info("글 내용 :" + itemdata.getDescription());
 	
 		
 		//DAO에서 수정 메서드 호출하여 수정합니다.
 		int result = itemService.itemModify(itemdata);
+		
+		logger.info("수정결과:"+result);
+		
 		//수정에 실패한 경우
 		if (result == 0) {
 			message="fail";
