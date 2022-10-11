@@ -60,8 +60,8 @@ public class ItemServiceImpl implements ItemService {
 
 
 	@Override
-	public int itemModify(Item modifyboard) {
-		return dao.itemModify(modifyboard);
+	public int itemModify(Item modifyitem) {
+		return dao.itemModify(modifyitem);
 	}
 
 	@Override

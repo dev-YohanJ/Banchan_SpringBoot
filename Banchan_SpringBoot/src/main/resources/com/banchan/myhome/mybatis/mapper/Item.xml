@@ -19,7 +19,7 @@
 		 (#{id}, #{name}, #{seller}, #{price},
 		  #{image, jdbcType=VARCHAR}, #{original, jdbcType=VARCHAR},
 		  #{description}, #{location}, #{allergy}, 
-		  #{readcount}, sysdate, #{status})
+		  #{readcount}, SYSDATE, #{status})
 	</insert>
 	
 	
@@ -32,9 +32,11 @@
 		select * from 
 		  ( select rownum rnum, b.*
 		    from (select * from item) b
-		    where rownum &lt;=  #{end}      
+		    where rownum &lt;=  #{end} 
+		    order by id desc     
 		   ) 
 	     where rnum &gt;= #{start} and rnum  &lt;=  #{end}
+	     order by id desc
 	</select>
 	
 	
@@ -64,7 +66,7 @@
 	<delete id="itemDelete">
 		<![CDATA[
 			delete from item
-			where id=#{id} 
+			where id = #{id} 
 		]]>
 	</delete>
 
