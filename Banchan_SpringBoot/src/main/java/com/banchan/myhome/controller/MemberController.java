@@ -225,18 +225,15 @@ public class MemberController {
 		logger.info("refileName = " + refileName);
 		
 		// 오라클 디비에 저장될 파일 명
-		// String fileDBName = "/" + year+ "-" + mont + "-" + date +"/" + refileName;
-		String fileDBName = File.separator + year + "-" + month + "-" + date + File.separator + refileName;
+		String fileDBName = "/" + year+ "-" + month + "-" + date +"/" + refileName;
+		//String fileDBName = "/" + year + "-" + month + "-" + date + "/" + refileName;
 		logger.info("fileDBName = " + fileDBName);
 		return fileDBName;
 	}
 	
 	@PatchMapping(value = "/members/nick")
-	public int nick(
-			@RequestParam(value="id", defaultValue="") String id,
-			@RequestParam(value="nickname", defaultValue="") String nick) {
-		logger.info(id+nick);
-		return memberservice.nick(id, nick);
+	public int nick(@RequestBody Member m) {
+		return memberservice.nick(m);
 		
 	}
 	

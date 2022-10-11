@@ -25,5 +25,5 @@ public interface MemberService {
 
 	public int Profile(Member memberdata);
 	
-	public int nick(String id, String nick);
+	public int nick(Member m);
 }
