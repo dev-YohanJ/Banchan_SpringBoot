@@ -25,5 +25,5 @@ public interface MemberMapper {
 
 	public int Profile(Member member);
 
-	public int nick(String id, String nick);
+	public int nick(Member m);
 }

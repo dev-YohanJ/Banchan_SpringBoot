@@ -27,7 +27,7 @@
 	
 	<update id="nick">
 		update	member
-		set 	nickname = #{nick}
+		set 	nickname = #{nickname}
 		where	id = #{id}
 	</update>
 	

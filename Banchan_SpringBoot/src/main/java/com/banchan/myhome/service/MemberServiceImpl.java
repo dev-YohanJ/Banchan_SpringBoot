@@ -108,8 +108,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int nick(String id, String nick) {
-		return dao.nick(id, nick);
+	public int nick(Member m) {
+		return dao.nick(m);
 	}
 
 	
