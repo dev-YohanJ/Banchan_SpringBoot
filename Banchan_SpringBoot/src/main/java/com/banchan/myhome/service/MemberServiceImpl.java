@@ -112,5 +112,21 @@ public class MemberServiceImpl implements MemberService {
 		return dao.nick(m);
 	}
 
+	@Override
+	public int intro(Member m) {
+		return dao.intro(m);
+	}
+
+	@Override
+	public List<Member> getMemberList(String id, int page) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getListCount(String id) {
+		return dao.getListCount(id);
+	}
+
 	
 }

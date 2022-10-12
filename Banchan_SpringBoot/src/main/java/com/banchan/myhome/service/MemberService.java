@@ -26,4 +26,10 @@ public interface MemberService {
 	public int Profile(Member memberdata);
 	
 	public int nick(Member m);
+
+	public int intro(Member m);
+
+	public List<Member> getMemberList(String id, int page);
+
+	public int getListCount(String id);
 }
