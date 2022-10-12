@@ -31,6 +31,17 @@
 		where	id = #{id}
 	</update>
 	
+	<update id="intro">
+		update	member
+		set 	intro = #{intro}
+		where	id = #{id}
+	</update>
+	
+	<select id="getListCount" parameterType="String" resultType="int">
+		select	count(*) from ()
+		where	id = #{id}
+	</select>
+	
 <!-- 	<update id="update">
 		update 	member
 		set 	name = #{name},

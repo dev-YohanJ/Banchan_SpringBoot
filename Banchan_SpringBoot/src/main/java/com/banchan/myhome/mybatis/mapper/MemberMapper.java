@@ -26,4 +26,8 @@ public interface MemberMapper {
 	public int Profile(Member member);
 
 	public int nick(Member m);
+
+	public int intro(Member m);
+
+	public int getListCount(String id);
 }

@@ -231,10 +231,28 @@ public class MemberController {
 		return fileDBName;
 	}
 	
+	// 닉네임 수정
 	@PatchMapping(value = "/members/nick")
 	public int nick(@RequestBody Member m) {
 		return memberservice.nick(m);
-		
+	}
+	// 자기소개 수정
+	@PatchMapping(value = "/members/intro")
+	public int intro(@RequestBody Member m) {
+		return memberservice.intro(m);
 	}
 	
+	// 찜 목록
+	@GetMapping(value = "/members/wishList")
+	public Map<String, Object> wishList
+			(@RequestParam String id,
+			@RequestParam int page) {
+		
+		List<Member> list = memberservice.getMemberList(id, page);
+		int listcount = memberservice.getListCount(id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("listcount", listcount);
+		return map;
+	}
 }
