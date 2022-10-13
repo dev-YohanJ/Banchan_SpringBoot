@@ -34,6 +34,7 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 	private String saveFolder;
 	
 	
+	
 	private String fileDBName(String fileName, String saveFolder) {
 		// 새로운 폴더 이름 : 오늘 년+월+일
 		Calendar c = Calendar.getInstance();
@@ -41,8 +42,9 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		int month = c.get(Calendar.MONTH)+ 1; //오늘 월
 		int date = c.get(Calendar.DATE); //오늘 일
 		
+		
 		String homedir = saveFolder + "/" + year + "-" + month + "-" + date;
-		logger.info(homedir);
+		logger.info("homedir:"+homedir);
 		File path1 = new File(homedir);
 		if (!(path1.exists())) {
 			path1.mkdir(); //새로운 폴더를 생성
@@ -79,22 +81,17 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 	//상품등록
 	@PostMapping(value ="/product_new")
 	public String add(Item item)throws Exception {
-		
-		logger.info("제목: "+item.getName());
-		logger.info("판매자: "+item.getSeller());
-		logger.info("내용: "+item.getDescription());
-//		logger.info("알러지: "+item.getAllergy());
 			
 		
 		MultipartFile[] uploadfile = item.getUploadfile();
 		logger.info("갯수 : " + uploadfile.length);
 		
-		String uploadfilenames = null;
+		String uploadfilenames = "";
 		
 		if (uploadfile!=null) {
 		//c:/upload 생성합니다.
 				//이전에는 직접 폴더를 생성했다면 지금은 File의 mkdir()로 폴더를 생성합니다.
-				logger.info(saveFolder);
+				logger.info("saveFolder:"+saveFolder);
 				File file = new File(saveFolder);
 				if(!file.exists()) {
 					if(file.mkdir()) {
@@ -110,8 +107,9 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 			String fileName = loadfile.getOriginalFilename(); //원래 파일명
 			item.setOriginal(fileName); //원래 파일명 저장
 			
+			
 			String fileDBName = fileDBName(fileName, saveFolder);
-			logger.info("fileDBNave = " + fileDBName);
+			logger.info("UploadfileDBName = " + fileDBName);
 			
 			// transferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장합니다.
 			loadfile.transferTo(new File(saveFolder + fileDBName));
@@ -178,7 +176,7 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 	}
 	
 	//상품 삭제
-	@DeleteMapping("/items")
+	@DeleteMapping("/items/{num}")
 	public int ItemDeleteAction(
 			   @PathVariable int num
 			) {
@@ -212,37 +210,37 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		
 		String message="";
 		
-//		MultipartFile[] uploadfile = itemdata.getUploadfile();
-//		logger.info("갯수 : " + uploadfile.length);
+		MultipartFile[] uploadfile = itemdata.getUploadfile();
+		logger.info("갯수 : " + uploadfile.length);
 		
 		String uploadfilenames = null;
 		
-//		if (check != null && !check.equals("")) { //기존파일 그대로 사용하는 경우입니다.
-//			logger.info("기존파일 그대로 사용합니다." + check);
-//			itemdata.setOriginal(check);
-//		} else {
-//			//파일 변경한 경우
-//			if(uploadfile!=null) {
-//				for(MultipartFile loadfile : uploadfile) {
-//					logger.info("파일 변경되었습니다.");
-//					
-//					String fileName = loadfile.getOriginalFilename(); //원래 파일명
-//					itemdata.setOriginal(fileName);
-//					
-//					String fileDBName = fileDBName(fileName, saveFolder);
-//					
-//					//tranceferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장합니다.
-//					loadfile.transferTo(new File(saveFolder + fileDBName));
-//					uploadfilenames += fileDBName + ",";
-//				}
-//				//바뀐 파일명으로 저장
-//				itemdata.setImage(uploadfilenames);
-//			} else {
-//				logger.info("선택 파일 없습니다.");
-//				itemdata.setImage("");//""로 초기화 합니다.
-//				itemdata.setOriginal("");//""로 초기화 합니다.
-//			}//else end
-//		}//else end
+		if (check != null && !check.equals("")) { //기존파일 그대로 사용하는 경우입니다.
+			logger.info("기존파일 그대로 사용합니다." + check);
+			itemdata.setOriginal(check);
+		} else {
+			//파일 변경한 경우
+			if(uploadfile!=null) {
+				for(MultipartFile loadfile : uploadfile) {
+					logger.info("파일 변경되었습니다.");
+					
+					String fileName = loadfile.getOriginalFilename(); //원래 파일명
+					itemdata.setOriginal(fileName);
+					
+					String fileDBName = fileDBName(fileName, saveFolder);
+					
+					//tranceferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장합니다.
+					loadfile.transferTo(new File(saveFolder + fileDBName));
+					uploadfilenames += fileDBName + ",";
+				}
+				//바뀐 파일명으로 저장
+				itemdata.setImage(uploadfilenames);
+			} else {
+				logger.info("선택 파일 없습니다.");
+				itemdata.setImage("");//""로 초기화 합니다.
+				itemdata.setOriginal("");//""로 초기화 합니다.
+			}//else end
+		}//else end
 		
 		logger.info("글 번호 : " + itemdata.getId());
 		logger.info("글 작성자 :" + itemdata.getSeller());
