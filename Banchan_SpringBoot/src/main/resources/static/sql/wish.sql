@@ -18,4 +18,38 @@ values(wishId_seq.nextval, 2, 'admin');
 insert into wish 
 values(wishId_seq.nextval, 3, 'admin');
 
+insert into wish 
+values(wishId_seq.nextval, 4, 'admin');
+
+insert into wish 
+values(wishId_seq.nextval, 5, 'admin');
+
+insert into wish 
+values(wishId_seq.nextval, 6, 'admin');
+
+insert into wish 
+values(wishId_seq.nextval, 7, 'admin');
+
+insert into wish 
+values(wishId_seq.nextval, 8, 'admin');
+
+insert into wish 
+values(wishId_seq.nextval, 9, 'admin');
+
+insert into wish 
+values(wishId_seq.nextval, 10, 'admin');
+
+insert into wish 
+values(wishId_seq.nextval, 11, 'admin');
+
+insert into wish 
+values(wishId_seq.nextval, 12, 'admin');
+
 select * from wish;
+
+
+select *
+from item
+inner join wish
+on item.id = wish.item_id
+where member_id = 'admin'
