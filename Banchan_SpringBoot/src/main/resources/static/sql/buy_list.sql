@@ -19,3 +19,9 @@ insert into buy_list
 values(buy_listId_seq.nextval, 3, 'admin');
 
 select * from buy_list;
+
+select *
+from item
+inner join buy_list
+on item.id = buy_list.item_id
+where member_id = 'admin'
