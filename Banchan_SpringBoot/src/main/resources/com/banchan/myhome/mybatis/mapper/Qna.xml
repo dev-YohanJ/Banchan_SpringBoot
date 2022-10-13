@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.banchan.myhome.mybatis.mapper.QnaMapper">
+	
+	<select id="getListCount" resultType="int">
+		select count(*) from qna
+	</select>
+	
+	<select id="getBoardList" parameterType="map" resultType="qna">
+		select * 
+		from (select rownum rnum, b.*
+			  from	(select * from qna) b
+			  where rownum &lt;= #{end}
+			  )
+		where rnum &gt;= #{start} and rnum &lt;= #{end}
+		order by rnum desc
+	</select>
+	
+	<update id="setReadCountUpdate" parameterType="int">
+		update 	qna
+		set 	BOARD_READCOUNT = BOARD_READCOUNT + 1
+		where 	BOARD_NUM = #{num}
+	</update>
+	
+	<select id="getDetail" parameterType="int" resultType="qna">
+		select 	* 
+		from 	qna
+		where 	BOARD_NUM = #{num}
+	</select>
+	
+	<insert id="insertBoard" parameterType="qna">
+		<selectKey resultType="int" order="BEFORE" keyProperty="BOARD_NUM">
+			select nvl(max(BOARD_NUM),0)+1 from qna
+		</selectKey>
+		insert into qna (
+		BOARD_NUM, BOARD_ID,
+		BOARD_PASS, BOARD_SUBJECT,
+		BOARD_CONTENT, BOARD_READCOUNT,
+		BOARD_DATE)
+		values (
+		#{BOARD_NUM}, #{BOARD_ID},
+		#{BOARD_PASS}, #{BOARD_SUBJECT},
+		#{BOARD_CONTENT}, #{BOARD_READCOUNT},
+		sysdate)
+	</insert>
+	
+	<select id="isBoardWriter" parameterType="map" resultType="qna">
+		select 	* 
+		from 	qna
+		where 	BOARD_NUM = #{num}
+		and		BOARD_PASS = #{pass}
+	</select>
+	
+	<delete id="boardDelete">
+		delete from qna 
+		where BOARD_NUM  = #{num}
+	</delete>
+	
+	<update id="boardModify" parameterType="qna">
+		update 	qna
+		set 	BOARD_SUBJECT = #{BOARD_SUBJECT}, 
+				BOARD_CONTENT = #{BOARD_CONTENT}
+		where 	BOARD_NUM = #{BOARD_NUM}
+	</update>
+</mapper>
