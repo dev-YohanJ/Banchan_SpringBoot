@@ -10,7 +10,7 @@ create table member(
    pic_original	varchar2(50),
    rating      	number,
    intro      	varchar2(1000),
-   nickname   	varchar2(20)
+   nickname   	varchar2(50)
 );
 
 insert into member 

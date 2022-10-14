@@ -10,19 +10,29 @@
 	</select>
 	
 	<select id="wish_list" parameterType="Map" resultType="item">
-	select * from
-		(	select rownum rnum, b.*
-			from(
-					select item.id, name, price, image, location
-					from item
-					inner join wish
-					on item.id = wish.item_id
-					where member_id = #{id}
-					order by wish.id desc
-			)b
-			where rownum &lt; = #{end}
-		)
-		where rnum between #{start} and #{end}
+		select * from
+			(	select rownum rnum, b.*
+				from(
+						select item.id, name, price, image, location
+						from item
+						inner join wish
+						on item.id = wish.item_id
+						where member_id = #{id}
+						order by wish.id desc
+				)b
+				where rownum &lt; = #{end}
+			)
+			where rnum between #{start} and #{end}
 	</select>
+	
+	<delete id="wish_del" parameterType="Wish">
+		delete 	from wish
+		where 	member_id = #{member_id}
+		and					
+		<foreach collection="item_id" item="item" separator=",">
+	        item_id = #{item}
+	    </foreach>
+	    
+	</delete>
 	
 </mapper>

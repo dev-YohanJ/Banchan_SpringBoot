@@ -167,7 +167,7 @@ public class MemberController {
 			String fileDBName = fileDBName(fileName, saveFolder);
 				
 			// transferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장합니다.
-			uploadfile.transferTo(new File(saveFolder + fileDBName));
+			uploadfile.transferTo(new File(saveFolder + "/" + fileDBName));
 				
 			// 바뀐 파일명으로 저장
 			memberdata.setPicture(fileDBName);
@@ -225,7 +225,7 @@ public class MemberController {
 		logger.info("refileName = " + refileName);
 		
 		// 오라클 디비에 저장될 파일 명
-		String fileDBName = "/" + year+ "-" + month + "-" + date +"/" + refileName;
+		String fileDBName = year+ "-" + month + "-" + date +"/" + refileName;
 		//String fileDBName = "/" + year + "-" + month + "-" + date + "/" + refileName;
 		logger.info("fileDBName = " + fileDBName);
 		return fileDBName;

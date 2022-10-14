@@ -72,8 +72,8 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		logger.info("refileName = " + refileName);
 		
 		//오라클 디비에 저장될 파일 명
-		//String fileDBName = "/" + year + "-" + month + "-" + date + "/" + refileName;
-		String fileDBName = File.separator + year + "-" + month + "-" + date + File.separator + refileName;
+		//String fileDBName = File.separator + year + "-" + month + "-" + date + File.separator + refileName;
+		String fileDBName = year + "-" + month + "-" + date + "/" + refileName;
 		logger.info("fileDBName = " + fileDBName);
 		return fileDBName;
 	}
@@ -109,10 +109,10 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 			
 			
 			String fileDBName = fileDBName(fileName, saveFolder);
-			logger.info("UploadfileDBName = " + fileDBName);
+			logger.info("UploadfileDBName = " + "/" + fileDBName);
 			
 			// transferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장합니다.
-			loadfile.transferTo(new File(saveFolder + fileDBName));
+			loadfile.transferTo(new File(saveFolder + "/" + fileDBName));
 			uploadfilenames += fileDBName + ",";
 			
 			}
