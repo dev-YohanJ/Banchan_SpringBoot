@@ -71,11 +71,11 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		String refileName = "bbs" + year + month + date + random + "." + fileExtension;
 		logger.info("refileName = " + refileName);
 		
-		//오라클 디비에 저장될 파일 명
-		//String fileDBName = "/" + year + "-" + month + "-" + date + "/" + refileName;
-		String fileDBName = year + "-" + month + "-" + date + "/" + refileName;
-		logger.info("fileDBName = " + fileDBName);
-		return fileDBName;
+    //오라클 디비에 저장될 파일 명
+    //String fileDBName = File.separator + year + "-" + month + "-" + date + File.separator + refileName;
+    String fileDBName = year + "-" + month + "-" + date + "/" + refileName;
+    logger.info("fileDBName = " + fileDBName);
+    return fileDBName;
 	}
 	
 	//상품등록

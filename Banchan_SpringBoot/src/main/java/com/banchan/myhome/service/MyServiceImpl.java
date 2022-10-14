@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.banchan.myhome.domain.Item;
+import com.banchan.myhome.domain.Wish;
 import com.banchan.myhome.mybatis.mapper.MyMapper;
 
 @Service
@@ -34,6 +35,11 @@ public class MyServiceImpl implements MyService {
 	@Override
 	public int getListCount(String id) {
 		return dao.getListCount(id);
+	}
+
+	@Override
+	public int wish_del(Wish wish) {
+		return dao.wish_del(wish);
 	}
 	
 	
