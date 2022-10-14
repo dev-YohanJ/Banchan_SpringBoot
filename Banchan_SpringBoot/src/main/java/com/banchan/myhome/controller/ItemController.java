@@ -121,6 +121,7 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		}
 		
 		itemService.insertItem(item); //저장메서드 호출
+		itemService.insertSell(item); // 솔빈 sell_list DB 추가
 		return "success";
 	}
 	

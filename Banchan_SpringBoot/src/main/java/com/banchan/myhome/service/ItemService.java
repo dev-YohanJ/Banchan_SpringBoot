@@ -26,5 +26,7 @@ public interface ItemService {
 
 	// 글 삭제
 	public int itemDelete(int num);
+
+	public void insertSell(Item item);
 	
 }

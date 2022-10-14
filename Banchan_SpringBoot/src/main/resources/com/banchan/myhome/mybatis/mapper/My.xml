@@ -29,8 +29,47 @@
 		delete 	from wish
 		where 	member_id = #{member_id}
 		and					
-		<foreach collection="item_id" item="item" separator=",">
-	        item_id = #{item}
+		<foreach collection="item_id" item="item" separator="or">
+	        	item_id = #{item}
+	    </foreach>
+	    
+	</delete>
+	
+	<select id="getSellListCount" resultType="int">
+		select	count(*) from sell_list
+		where	member_id = #{id}
+	</select>
+	
+	<select id="sell_list" parameterType="Map" resultType="item">
+		select * from
+			(	select rownum rnum, b.*
+				from(
+						select item.id, name, price, image, location
+						from item
+						inner join sell_list
+						on item.id = sell_list.item_id
+						where member_id = #{id}
+						order by sell_list.id desc
+				)b
+				where rownum &lt; = #{end}
+			)
+			where rnum between #{start} and #{end}
+	</select>
+	
+	<delete id="sell_del" parameterType="sell">
+		delete 	from sell_list
+		where member_id = #{member_id}
+		and
+		<foreach collection="item_id" item="item" separator="or">
+	        	item_id = #{item}
+	    </foreach>
+	</delete>
+	
+	<delete id="wish_del2" parameterType="sell">
+		delete 	from wish
+		where					
+		<foreach collection="item_id" item="item" separator="or">
+	        	item_id = #{item}
 	    </foreach>
 	    
 	</delete>

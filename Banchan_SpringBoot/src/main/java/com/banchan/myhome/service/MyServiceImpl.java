@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.banchan.myhome.domain.Item;
+import com.banchan.myhome.domain.Sell;
 import com.banchan.myhome.domain.Wish;
 import com.banchan.myhome.mybatis.mapper.MyMapper;
 
@@ -41,6 +42,32 @@ public class MyServiceImpl implements MyService {
 	public int wish_del(Wish wish) {
 		return dao.wish_del(wish);
 	}
-	
-	
+
+	@Override
+	public List<Item> sell_list(String id, int page) {
+		int startrow=1;
+		int endrow=page*4;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("start", startrow);
+		map.put("end", endrow);
+		return dao.sell_list(map);
+	}
+
+	@Override
+	public int getSellListCount(String id) {
+		return dao.getSellListCount(id);
+	}
+
+	@Override
+	public int sell_del(Sell sell) {
+		return dao.sell_del(sell);
+	}
+
+	@Override
+	public int wish_del2(Sell sell) {
+		return dao.wish_del2(sell);
+	}
+
 }
