@@ -230,7 +230,8 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 					String fileDBName = fileDBName(fileName, saveFolder);
 					
 					//tranceferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장합니다.
-					loadfile.transferTo(new File(saveFolder + fileDBName));
+					loadfile.transferTo(new File(saveFolder + "/" + fileDBName));
+//					loadfile.transferTo(new File(saveFolder + fileDBName));
 					uploadfilenames += fileDBName + ",";
 				}
 				//바뀐 파일명으로 저장
