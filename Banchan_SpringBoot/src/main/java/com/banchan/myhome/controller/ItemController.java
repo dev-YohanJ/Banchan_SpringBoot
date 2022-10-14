@@ -71,11 +71,11 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		String refileName = "bbs" + year + month + date + random + "." + fileExtension;
 		logger.info("refileName = " + refileName);
 		
-		//오라클 디비에 저장될 파일 명
-		//String fileDBName = File.separator + year + "-" + month + "-" + date + File.separator + refileName;
-		String fileDBName = year + "-" + month + "-" + date + "/" + refileName;
-		logger.info("fileDBName = " + fileDBName);
-		return fileDBName;
+    //오라클 디비에 저장될 파일 명
+    //String fileDBName = File.separator + year + "-" + month + "-" + date + File.separator + refileName;
+    String fileDBName = year + "-" + month + "-" + date + "/" + refileName;
+    logger.info("fileDBName = " + fileDBName);
+    return fileDBName;
 	}
 	
 	//상품등록
@@ -213,7 +213,7 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		MultipartFile[] uploadfile = itemdata.getUploadfile();
 		logger.info("갯수 : " + uploadfile.length);
 		
-		String uploadfilenames = null;
+		String uploadfilenames = "";
 		
 		if (check != null && !check.equals("")) { //기존파일 그대로 사용하는 경우입니다.
 			logger.info("기존파일 그대로 사용합니다." + check);

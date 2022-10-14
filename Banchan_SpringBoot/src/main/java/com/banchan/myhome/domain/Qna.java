@@ -8,7 +8,14 @@ public class Qna {
 	private String BOARD_CONTENT;
 	private int	   BOARD_READCOUNT;
 	private String BOARD_DATE;
+	private int    CNT;
 	
+	public int getCNT() {
+		return CNT;
+	}
+	public void setCNT(int cNT) {
+		CNT = cNT;
+	}
 	public int getBOARD_NUM() {
 		return BOARD_NUM;
 	}
@@ -49,6 +56,6 @@ public class Qna {
 		return BOARD_DATE;
 	}
 	public void setBOARD_DATE(String bOARD_DATE) {
-		BOARD_DATE = bOARD_DATE;
+		BOARD_DATE = bOARD_DATE.substring(5,16);
 	}
 }
