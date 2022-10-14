@@ -74,5 +74,10 @@ public class ItemServiceImpl implements ItemService {
 		return result;
 	}
 
+	@Override
+	public void insertSell(Item item) {
+		dao.insertSell(item);
+	}
+
 
 }

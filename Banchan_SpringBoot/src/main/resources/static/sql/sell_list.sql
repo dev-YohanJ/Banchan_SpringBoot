@@ -20,8 +20,3 @@ values(sell_listId_seq.nextval, 3, 'admin');
 
 select * from sell_list;
 
-select *
-from item
-inner join sell_list
-on item.id = sell_list.item_id
-where member_id = 'admin'

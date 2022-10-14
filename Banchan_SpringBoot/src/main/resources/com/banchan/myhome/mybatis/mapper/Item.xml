@@ -22,6 +22,13 @@
 		  #{readcount}, SYSDATE, #{status})
 	</insert>
 	
+	<insert id="insertSell">
+		insert into sell_list
+		values(
+				sell_listId_seq.nextval, (select max(id) from item), #{seller}
+			  )
+	</insert>
+	
 	
 	<select id="getListCount" resultType="int">
 		select count(*) from item

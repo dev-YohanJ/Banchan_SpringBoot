@@ -1,8 +1,8 @@
 package com.banchan.myhome.domain;
 
-public class Buy_List {
+public class Sell {
 	private int id;
-	private int item_id;
+	private int[] item_id;
 	private String member_id;
 	
 	public int getId() {
@@ -11,10 +11,10 @@ public class Buy_List {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getItem_id() {
+	public int[] getItem_id() {
 		return item_id;
 	}
-	public void setItem_id(int item_id) {
+	public void setItem_id(int[] item_id) {
 		this.item_id = item_id;
 	}
 	public String getMember_id() {
@@ -23,4 +23,5 @@ public class Buy_List {
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
 	}
+	
 }

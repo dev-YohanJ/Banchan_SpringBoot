@@ -31,6 +31,9 @@ public interface ItemMapper {
 		
 	//글 삭제
 	public int itemDelete(Item board);
+	
+	// sell_list DB추가
+	public void insertSell(Item item);
 
 	
 }

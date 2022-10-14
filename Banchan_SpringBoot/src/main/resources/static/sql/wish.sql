@@ -43,7 +43,7 @@ insert into wish
 values(wishId_seq.nextval, 11, 'admin');
 
 insert into wish 
-values(wishId_seq.nextval, 12, 'admin');
+values(wishId_seq.nextval, 14, 'admin');
 
 select * from wish;
 
