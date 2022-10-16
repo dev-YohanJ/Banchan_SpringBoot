@@ -24,7 +24,8 @@
                  	 	 qna left outer join (select board_num, count(*) cnt
                                             	from comments
                                             	group by board_num) c
-                  		 on qna.board_num = c.board_num) b
+                  		 on qna.board_num = c.board_num
+                  		 order by qna.board_num) b
             	where rownum &lt;= #{end}     
 		   		) 
 		where rnum &gt;= #{start} and rnum  &lt;= #{end}
