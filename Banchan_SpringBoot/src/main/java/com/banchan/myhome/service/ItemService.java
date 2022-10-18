@@ -29,4 +29,7 @@ public interface ItemService {
 
 	public void insertSell(Item item);
 	
+	//멤버 내용
+	public Item memberDetail(String id);
+	
 }
