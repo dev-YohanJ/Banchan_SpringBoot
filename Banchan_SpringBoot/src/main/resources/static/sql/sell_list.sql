@@ -16,7 +16,15 @@ insert into sell_list
 values(sell_listId_seq.nextval, 2, 'admin');
 
 insert into sell_list 
-values(sell_listId_seq.nextval, 3, 'admin');
+values(sell_listId_seq.nextval, 21, 'admin');
+
+delete from SELL_LIST
+where item_id = 21;
+
+update ITEM
+set
+status = 1
+where id = 22;
 
 select * from sell_list;
 

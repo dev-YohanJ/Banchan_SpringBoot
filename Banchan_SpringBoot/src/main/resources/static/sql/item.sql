@@ -29,4 +29,7 @@ values(itemId_seq.nextval, '반찬2', 'bbbbb', 2000, 'itemImage', 'original', '�
 insert into item 
 values(itemId_seq.nextval, '반찬3', 'ccccc', 3000, 'itemImage', 'original', '반찬설명3', '종로구 봉익동', '새우', 0, sysdate, 0);
 
+insert into item 
+values(itemId_seq.nextval, '반찬3', 'ccccc', 3000, 'itemImage', 'original', '반찬설명3', '종로구 봉익동', '새우', 0, sysdate, 1);
+
 select * from item;

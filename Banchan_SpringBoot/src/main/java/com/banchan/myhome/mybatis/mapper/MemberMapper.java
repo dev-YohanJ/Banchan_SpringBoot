@@ -30,4 +30,6 @@ public interface MemberMapper {
 	public int intro(Member m);
 
 	public int getListCount(String id);
+
+	public int checkPassword(Member m);
 }

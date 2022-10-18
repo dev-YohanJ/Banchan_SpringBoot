@@ -32,4 +32,6 @@ public interface MemberService {
 	public List<Member> getMemberList(String id, int page);
 
 	public int getListCount(String id);
+
+	public int checkPassword(Member m);
 }

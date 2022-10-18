@@ -2,6 +2,7 @@ package com.banchan.myhome.service;
 
 import java.util.List;
 
+import com.banchan.myhome.domain.Buy;
 import com.banchan.myhome.domain.Item;
 import com.banchan.myhome.domain.Sell;
 import com.banchan.myhome.domain.Wish;
@@ -21,5 +22,13 @@ public interface MyService {
 	public int sell_del(Sell sell);
 
 	public int wish_del2(Sell sell);
+
+	public int sellfn(int id);
+
+	public List<Item> buy_list(String id, int page);
+	
+	public int getBuyListCount(String id);
+
+	public int buy_del(Buy buy);
 	
 }
