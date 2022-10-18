@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.banchan.myhome.domain.Item;
+import com.banchan.myhome.domain.Member;
 import com.banchan.myhome.service.ItemService;
+import com.banchan.myhome.service.MemberService;
 
 @RestController
 public class ItemController {
@@ -25,7 +27,7 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 	private ItemService itemService;
 	
 	@Autowired
-	public ItemController(ItemService itemService) {
+	public ItemController(ItemService itemService, MemberService memberservice) {
 		this.itemService=itemService;
 	}
 	
@@ -78,9 +80,10 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
     return fileDBName;
 	}
 	
+	
 	//상품등록
 	@PostMapping(value ="/product_new")
-	public String add(Item item)throws Exception {
+	public String add(Item item, String id)throws Exception {
 			
 		
 		MultipartFile[] uploadfile = item.getUploadfile();
@@ -119,11 +122,22 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 			//바뀐 파일명으로 저장
 			item.setImage(uploadfilenames);	
 		}
+			
 		
 		itemService.insertItem(item); //저장메서드 호출
 		itemService.insertSell(item); // 솔빈 sell_list DB 추가
 		return "success";
 	}
+	
+	//게시판 사용될 정보 구하기
+	@GetMapping(value= {"/items/{id}"})
+	public Map<String, Object> memberDetail(@PathVariable String id) {
+		Item member = itemService.memberDetail(id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member", member);
+		return map;
+	}
+	
 	
 	//상품 리스트
 	@GetMapping(value = "/item")
@@ -212,13 +226,13 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		String message="";
 		
 		MultipartFile[] uploadfile = itemdata.getUploadfile();
-		logger.info("갯수 : " + uploadfile.length);
 		
 		String uploadfilenames = "";
 		
 		if (check != null && !check.equals("")) { //기존파일 그대로 사용하는 경우입니다.
 			logger.info("기존파일 그대로 사용합니다." + check);
 			itemdata.setOriginal(check);
+			itemdata.setImage(itemdata.getImage());//""로 초기화 합니다.
 		} else {
 			//파일 변경한 경우
 			if(uploadfile!=null) {
@@ -236,7 +250,8 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 					uploadfilenames += fileDBName + ",";
 				}
 				//바뀐 파일명으로 저장
-				itemdata.setImage(uploadfilenames);
+				logger.info("기존파일명: "+itemdata.getImage());
+				itemdata.setImage(itemdata.getImage()+uploadfilenames);
 			} else {
 				logger.info("선택 파일 없습니다.");
 				itemdata.setImage("");//""로 초기화 합니다.

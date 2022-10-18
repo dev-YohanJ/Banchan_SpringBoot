@@ -59,6 +59,12 @@
 		where 	id = #{id}
 	</select>
 	
+	<select id="memberDetail" parameterType="String" resultType="member">
+		select 	* 
+		from 	member
+		where 	id = #{id}
+	</select>
+	
 	
 	<update id="itemModify">
 	  update item 
