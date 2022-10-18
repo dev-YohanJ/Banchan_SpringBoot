@@ -89,4 +89,10 @@
 			</foreach>
 		</if>
 	</sql>
+	
+	<select id="checkPassword" resultType="int">
+		select count(*) from member
+		where 	id = #{id}
+		and 	password = #{password}
+	</select>
 </mapper>

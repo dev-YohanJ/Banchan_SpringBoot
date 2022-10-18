@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.banchan.myhome.domain.Buy;
 import com.banchan.myhome.domain.Item;
 import com.banchan.myhome.domain.Sell;
 import com.banchan.myhome.domain.Wish;
@@ -25,5 +26,13 @@ public interface MyMapper {
 	public int sell_del(Sell sell);
 
 	public int wish_del2(Sell sell);
+
+	public int sellfn(int id);
+
+	public List<Item> buy_list(Map<String, Object> map);
+	
+	public int getBuyListCount(String id);
+
+	public int buy_del(Buy buy);
 	
 }

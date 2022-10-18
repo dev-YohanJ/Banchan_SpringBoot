@@ -9,9 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.banchan.myhome.domain.Buy;
 import com.banchan.myhome.domain.Item;
 import com.banchan.myhome.domain.Sell;
 import com.banchan.myhome.domain.Wish;
@@ -95,6 +98,51 @@ public class MyController {
 		int result2 = myservice.wish_del2(sell);		
 		// 삭제 처리 성공한 경우
 		if (result != 0 && result2 != 0) {
+			logger.info("판매 목록 삭제 성공");
+			
+		}
+		return result;
+		
+	}
+	
+	@PatchMapping(value = "/sellfn/{id}")
+	public int sellfn(@PathVariable int id) {
+		logger.info("item_id = " + id);
+		
+		int result = myservice.sellfn(id);
+		
+		return result;
+		
+	}
+	
+	@GetMapping(value="/buy")
+	public Map<String, Object> buy_list(@RequestParam String id,
+										 @RequestParam int page) {
+		logger.info("id=" + id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<Item> item = myservice.buy_list(id, page);
+		int listcount = myservice.getBuyListCount(id);
+		
+		map.put("item", item);
+		map.put("listcount", listcount);
+		
+		return map;
+	}
+	
+	@DeleteMapping(value = "/buy")
+	public int sell_del(Buy buy) {
+		
+		logger.info("member_id=" + buy.getMember_id());
+		int a[] = buy.getItem_id();
+		logger.info(a + "");
+		for(int t : a) {
+			logger.info("item_id = " + t + "");
+		}
+		
+		int result = myservice.buy_del(buy);
+		// 삭제 처리 성공한 경우
+		if (result != 0) {
 			logger.info("판매 목록 삭제 성공");
 			
 		}

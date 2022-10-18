@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.banchan.myhome.domain.Buy;
 import com.banchan.myhome.domain.Item;
 import com.banchan.myhome.domain.Sell;
 import com.banchan.myhome.domain.Wish;
@@ -68,6 +69,33 @@ public class MyServiceImpl implements MyService {
 	@Override
 	public int wish_del2(Sell sell) {
 		return dao.wish_del2(sell);
+	}
+
+	@Override
+	public int sellfn(int id) {
+		return dao.sellfn(id);
+	}
+
+	@Override
+	public List<Item> buy_list(String id, int page) {
+		int startrow=1;
+		int endrow=page*4;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("start", startrow);
+		map.put("end", endrow);
+		return dao.buy_list(map);
+	}
+
+	@Override
+	public int getBuyListCount(String id) {
+		return dao.getBuyListCount(id);
+	}
+
+	@Override
+	public int buy_del(Buy buy) {
+		return dao.buy_del(buy);
 	}
 
 }

@@ -128,5 +128,10 @@ public class MemberServiceImpl implements MemberService {
 		return dao.getListCount(id);
 	}
 
+	@Override
+	public int checkPassword(Member m) {
+		return dao.checkPassword(m);
+	}
+
 	
 }

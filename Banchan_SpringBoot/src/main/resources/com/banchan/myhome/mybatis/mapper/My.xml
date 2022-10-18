@@ -13,7 +13,7 @@
 		select * from
 			(	select rownum rnum, b.*
 				from(
-						select item.id, name, price, image, location
+						select item.id, name, price, image, location, status
 						from item
 						inner join wish
 						on item.id = wish.item_id
@@ -44,7 +44,7 @@
 		select * from
 			(	select rownum rnum, b.*
 				from(
-						select item.id, name, price, image, location
+						select item.id, name, price, image, location, status
 						from item
 						inner join sell_list
 						on item.id = sell_list.item_id
@@ -72,6 +72,42 @@
 	        	item_id = #{item}
 	    </foreach>
 	    
+	</delete>
+	
+	<update id="sellfn">
+		update 	from item
+		set		status = 1
+		where	id = #{id}
+	</update>
+	
+	<select id="getBuyListCount" resultType="int">
+		select	count(*) from buy_list
+		where	member_id = #{id}
+	</select>
+	
+	<select id="buy_list" parameterType="Map" resultType="item">
+		select * from
+			(	select rownum rnum, b.*
+				from(
+						select item.id, name, price, image, location, status
+						from item
+						inner join buy_list
+						on item.id = buy_list.item_id
+						where member_id = #{id}
+						order by buy_list.id desc
+				)b
+				where rownum &lt; = #{end}
+			)
+			where rnum between #{start} and #{end}
+	</select>
+	
+	<delete id="buy_del" parameterType="buy">
+		delete 	from buy_list
+		where 	member_id = #{member_id}
+		and					
+		<foreach collection="item_id" item="item" separator="or">
+	        	item_id = #{item}
+	    </foreach>
 	</delete>
 	
 </mapper>

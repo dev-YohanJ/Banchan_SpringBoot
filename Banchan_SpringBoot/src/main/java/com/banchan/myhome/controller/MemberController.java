@@ -88,6 +88,22 @@ public class MemberController {
 		return memberservice.delete(id);
 	}
 	
+	@DeleteMapping(value="/secession/{id}")
+	public int secession(@PathVariable String id) {
+		logger.info("id =" + id);
+		
+		int result = memberservice.delete(id);
+				
+		//삭제 처리 실패한 경우
+		if (result == 0) {
+			return -1;
+		}
+				
+		//삭제 처리 성공한 경우 - 글 목록 보기 요청을 전송하는 부분
+		logger.info("탈퇴하기 성공");
+		return 1;
+	}
+	
 	@GetMapping(value = "/members")
 	public Map<String,Object> memberList(
 		@RequestParam(value="page", defaultValue="1", required=false) int page,
@@ -254,5 +270,13 @@ public class MemberController {
 		map.put("list", list);
 		map.put("listcount", listcount);
 		return map;
+	}
+	
+	@PostMapping(value = "members/pwcheck")
+	public int pwcheck(@RequestBody Member m) {
+		
+		int result = memberservice.checkPassword(m);
+		logger.info("result= " + result);
+		return result;
 	}
 }
