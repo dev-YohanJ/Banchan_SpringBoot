@@ -2,10 +2,12 @@ package com.banchan.myhome.mybatis.mapper;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.banchan.myhome.domain.Item;
+import com.banchan.myhome.domain.Member;
 
 
 @Mapper
@@ -37,6 +39,9 @@ public interface ItemMapper {
 	
 	//멤버 내용
 	public Item memberDetail(String id);
+	
+
+	public List<Item> getSearchList(Map<String, Object> map);
 
 	
 }

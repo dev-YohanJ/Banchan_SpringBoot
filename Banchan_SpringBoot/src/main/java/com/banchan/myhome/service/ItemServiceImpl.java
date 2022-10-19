@@ -83,6 +83,28 @@ public class ItemServiceImpl implements ItemService {
 	public Item memberDetail(String id) {
 		return dao.memberDetail(id);
 	}
+	
+
+	@Override
+	public List<Item> getSearchList(String index, String search_word, int page, int limit) {
+		logger.info("page="+page);
+		logger.info("limit="+limit);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if (!index.equals("")) {
+			String[] search_field = index.split("");
+			logger.info("search_field.length:" + search_field.length);
+			for(int i=0;i<search_field.length;i++) {
+				logger.info(search_field[i]);
+			}
+			map.put("search_field", search_field);
+			map.put("search_word", "%" + search_word + "%");
+		}
+		int startrow=(page-1)*limit+1;
+		int endrow=startrow+limit-1;
+		map.put("start", startrow);
+		map.put("end", endrow);
+		return dao.getSearchList(map);
+	}
 
 
 }

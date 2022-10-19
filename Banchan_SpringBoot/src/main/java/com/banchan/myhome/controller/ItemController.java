@@ -128,18 +128,26 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		itemService.insertSell(item); // 솔빈 sell_list DB 추가
 		return "success";
 	}
-	
+
 	//상품 리스트
 	@GetMapping(value = "/item")
 	public Map<String,Object> itemListAjax(
 			@RequestParam(value="page",defaultValue="1", required=false) int page,
-			@RequestParam(value="limit",defaultValue="10", required=false) int limit
+			@RequestParam(value="limit",defaultValue="10", required=false) int limit,
+			@RequestParam(value="search_field", defaultValue="") String index,
+			@RequestParam(value="search_word", defaultValue="") String search_word
 			) {
+		
+		List<Item> list = null;
 		
 		int listcount = itemService.getListCount(); // 총 리스트 수를 받아옴
 		
+		
 		// 총 페이지 수
 		int maxpage = (listcount + limit - 1) / limit;
+		
+		
+		list = itemService.getSearchList(index, search_word, page, limit);
 		
 		//만약 maxpage가 2이고 page도 2인 경우
 		//2페이지의 목록의 수가 한 개인 상태에서 남은 항목 한개를 삭제한 경우
@@ -167,7 +175,10 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		map.put("endpage", endpage);
 		map.put("listcount", listcount);
 		map.put("boardlist", boardlist);
+		map.put("boardlist1", list);
 		map.put("limit", limit);
+		map.put("search_field", index);
+		map.put("search_word", search_word);
 		return map;
 	}
 	
@@ -209,8 +220,7 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 	//상품 수정
 	@PatchMapping("/items")
 	public String ItemModifyAction(
-			Item itemdata,
-			@RequestParam (value="check", defaultValue="", required=false) String check
+			Item itemdata
 			) throws Exception {
 		
 		String message="";
@@ -219,11 +229,11 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		
 		String uploadfilenames = "";
 		
-		if (check != null && !check.equals("")) { //기존파일 그대로 사용하는 경우입니다.
-			logger.info("기존파일 그대로 사용합니다." + check);
-			itemdata.setOriginal(check);
+		if (itemdata.getImage() != null && !itemdata.getImage().equals("")) { //기존파일 그대로 사용하는 경우입니다.
+			logger.info("기존파일 그대로 사용합니다." + itemdata.getImage());
+			itemdata.setOriginal(itemdata.getImage());
 			itemdata.setImage(itemdata.getImage());//""로 초기화 합니다.
-		} else {
+		} 
 			//파일 변경한 경우
 			if(uploadfile!=null) {
 				for(MultipartFile loadfile : uploadfile) {
@@ -242,12 +252,7 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 				//바뀐 파일명으로 저장
 				logger.info("기존파일명: "+itemdata.getImage());
 				itemdata.setImage(itemdata.getImage()+uploadfilenames);
-			} else {
-				logger.info("선택 파일 없습니다.");
-				itemdata.setImage("");//""로 초기화 합니다.
-				itemdata.setOriginal("");//""로 초기화 합니다.
-			}//else end
-		}//else end
+			}
 		
 		logger.info("글 번호 : " + itemdata.getId());
 		logger.info("글 작성자 :" + itemdata.getSeller());
