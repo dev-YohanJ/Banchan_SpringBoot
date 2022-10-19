@@ -128,10 +128,7 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		itemService.insertSell(item); // 솔빈 sell_list DB 추가
 		return "success";
 	}
-	
-	
-	
-	
+
 	//상품 리스트
 	@GetMapping(value = "/item")
 	public Map<String,Object> itemListAjax(
