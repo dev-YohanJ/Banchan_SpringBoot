@@ -3,6 +3,7 @@ package com.banchan.myhome.service;
 import java.util.List;
 
 import com.banchan.myhome.domain.Item;
+import com.banchan.myhome.domain.Member;
 
 public interface ItemService {
 
@@ -31,5 +32,8 @@ public interface ItemService {
 	
 	//멤버 내용
 	public Item memberDetail(String id);
+	
+	public List<Item> getSearchList(String index, String search_word, int page, int limit);
+	
 	
 }

@@ -82,7 +82,32 @@
 			where id = #{id} 
 		]]>
 	</delete>
-
 	
+	<select id="getSearchList" resultType="item">
+	   select *
+	   from ( select rownum rnum, b.*
+			   from ( select *
+			   		  from item 
+					  <include refid="search_"/>
+					  order by id
+				  	  )b
+				where rownum &lt;= #{end}
+			)
+		where rnum &gt;= #{start} and rnum  &lt;=  #{end}
+	</select>
+	
+	
+	<sql id="search_">
+		<if test="search_field != null">
+			and
+			<foreach collection="search_field" separator="or" item="index">
+				<choose>
+					<when test='index=="N"'>name</when>
+					<when test='index=="L"'>location</when>
+				</choose>
+				like #{search_word}
+			</foreach>
+		</if>
+	</sql>
 	
 </mapper>
