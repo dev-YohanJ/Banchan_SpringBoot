@@ -30,5 +30,11 @@ public interface MyService {
 	public int getBuyListCount(String id);
 
 	public int buy_del(Buy buy);
+
+	public int wish_insert(Wish w);
+
+	public int wish_check(Wish w);
+
+	public int wish_delete(Wish w);
 	
 }

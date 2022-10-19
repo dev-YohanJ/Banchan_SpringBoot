@@ -89,7 +89,7 @@ public class MemberController {
 	}
 	
 	@DeleteMapping(value="/secession/{id}")
-	public int secession(@PathVariable String id) {
+	public int secession(@PathVariable String id, HttpSession session) {
 		logger.info("id =" + id);
 		
 		int result = memberservice.delete(id);
@@ -98,7 +98,7 @@ public class MemberController {
 		if (result == 0) {
 			return -1;
 		}
-				
+		session.invalidate();
 		//삭제 처리 성공한 경우 - 글 목록 보기 요청을 전송하는 부분
 		logger.info("탈퇴하기 성공");
 		return 1;
@@ -278,5 +278,15 @@ public class MemberController {
 		int result = memberservice.checkPassword(m);
 		logger.info("result= " + result);
 		return result;
+	}
+	
+	@GetMapping(value="members/nickcheck2")
+	public int Nick_check2(Member m) {
+		return memberservice.nickcheck2(m);
+	}
+	
+	@PatchMapping(value = "members/update")
+	public int member_update(@RequestBody Member m) {
+		return memberservice.member_update(m);
 	}
 }

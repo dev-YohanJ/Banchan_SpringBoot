@@ -129,16 +129,6 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		return "success";
 	}
 	
-	//게시판 사용될 정보 구하기
-	@GetMapping(value= {"/items/{id}"})
-	public Map<String, Object> memberDetail(@PathVariable String id) {
-		Item member = itemService.memberDetail(id);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("member", member);
-		return map;
-	}
-	
-	
 	//상품 리스트
 	@GetMapping(value = "/item")
 	public Map<String,Object> itemListAjax(

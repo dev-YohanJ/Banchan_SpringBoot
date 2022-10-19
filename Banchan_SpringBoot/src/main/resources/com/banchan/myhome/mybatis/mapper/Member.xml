@@ -12,6 +12,12 @@
 		select * from member where nickname = #{nickname}
 	</select>
 	
+	<select id="nickcheck2" resultType="int">
+		select count(*) from member
+		where nickname = #{nickname}
+		and id = #{id}
+	</select>
+	
 	<insert id="insert">
 		insert into member
 		values
@@ -95,4 +101,15 @@
 		where 	id = #{id}
 		and 	password = #{password}
 	</select>
+	
+	<update id="member_update">
+		update member
+		set password = #{password},
+			name = #{name},
+			nickname = #{nickname},
+			phone = #{phone},
+			email = #{email},
+			address = #{address}
+		where id = #{id}
+	</update>
 </mapper>

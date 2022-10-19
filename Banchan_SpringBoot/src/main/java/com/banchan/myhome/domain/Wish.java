@@ -3,6 +3,7 @@ package com.banchan.myhome.domain;
 public class Wish {
 	private int id;
 	private int[] item_id;
+	private int item_id2;
 	private String member_id;
 	
 	public int getId() {
@@ -10,6 +11,12 @@ public class Wish {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public int getItem_id2() {
+		return item_id2;
+	}
+	public void setItem_id2(int item_id2) {
+		this.item_id2 = item_id2;
 	}
 	public int[] getItem_id() {
 		return item_id;

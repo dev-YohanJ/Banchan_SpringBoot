@@ -34,4 +34,8 @@ public interface MemberService {
 	public int getListCount(String id);
 
 	public int checkPassword(Member m);
+
+	public int nickcheck2(Member m);
+
+	public int member_update(Member m);
 }

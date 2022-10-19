@@ -98,4 +98,19 @@ public class MyServiceImpl implements MyService {
 		return dao.buy_del(buy);
 	}
 
+	@Override
+	public int wish_insert(Wish w) {
+		return dao.wish_insert(w);
+	}
+
+	@Override
+	public int wish_check(Wish w) {
+		return dao.wish_check(w);
+	}
+
+	@Override
+	public int wish_delete(Wish w) {
+		return dao.wish_delete(w);
+	}
+
 }
