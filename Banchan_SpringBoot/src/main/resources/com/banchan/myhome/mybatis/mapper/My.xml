@@ -75,7 +75,7 @@
 	</delete>
 	
 	<update id="sellfn">
-		update 	from item
+		update 	item
 		set		status = 1
 		where	id = #{id}
 	</update>
@@ -108,6 +108,24 @@
 		<foreach collection="item_id" item="item" separator="or">
 	        	item_id = #{item}
 	    </foreach>
+	</delete>
+	
+	<insert id="wish_insert">
+		insert into wish
+		values
+		(wishId_seq.nextval, #{item_id2}, #{member_id})
+	</insert>
+	
+	<select id="wish_check" resultType="int">
+		select count(*) from wish
+		where	member_id = #{member_id}
+		and 	item_id = #{item_id2}
+	</select>
+	
+	<delete id="wish_delete">
+		delete from wish
+		where	member_id = #{member_id}
+		and		item_id = #{item_id2}
 	</delete>
 	
 </mapper>

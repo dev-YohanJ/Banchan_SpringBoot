@@ -14,7 +14,7 @@ create table member(
 );
 
 insert into member 
-values('admin', '1', '홍길동', '01012341234', 'admin@naver.com', '서울시 종로구', 'basicpic', 'basicpic1', 0, '자기소개', '관리자');
+values('admin', '1', '홍길동', '01012341234', 'admin@naver.com', '12345/서울시 종로구/우리집', 'basicpic', 'basicpic1', 0, '자기소개', '관리자');
 
 insert into member 
 values('aaaaa', '1', '이름1', '01012341234', 'email1@naver.com', '서울시 종로구', 'basicpic', 'basicpic2', 0, '자기소개', '유저1');

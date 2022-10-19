@@ -46,6 +46,7 @@ insert into wish
 values(wishId_seq.nextval, 22, 'admin');
 
 select * from wish;
+select * from item;
 
 
 select *

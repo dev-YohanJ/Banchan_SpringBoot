@@ -147,7 +147,21 @@ public class MyController {
 			
 		}
 		return result;
-		
+	}
+	
+	@GetMapping(value = "wish/add")
+	public int wish_insert(Wish w) {
+		return myservice.wish_insert(w);
+	}
+	
+	@GetMapping(value = "wish/check")
+	public int wish_check(Wish w) {
+		return myservice.wish_check(w);
+	}
+	
+	@DeleteMapping(value = "wish/delete")
+	public int wish_delete(Wish w) {
+		return myservice.wish_delete(w);
 	}
 	
 }

@@ -133,5 +133,15 @@ public class MemberServiceImpl implements MemberService {
 		return dao.checkPassword(m);
 	}
 
+	@Override
+	public int nickcheck2(Member m) {
+		return dao.nickcheck2(m);
+	}
+
+	@Override
+	public int member_update(Member m) {
+		return dao.member_update(m);
+	}
+
 	
 }
