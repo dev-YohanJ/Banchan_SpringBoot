@@ -2,9 +2,17 @@ package com.banchan.myhome.domain;
 
 public class Buy {
 	private int id;
+	private int item_id2;
 	private int[] item_id;
 	private String member_id;
 	
+	
+	public int getItem_id2() {
+		return item_id2;
+	}
+	public void setItem_id2(int item_id2) {
+		this.item_id2 = item_id2;
+	}
 	public int getId() {
 		return id;
 	}

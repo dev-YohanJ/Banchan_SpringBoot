@@ -1,20 +1,16 @@
 package com.naver.myhome.task;
 
-import java.io.File;
-
 import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
 
 import com.banchan.myhome.domain.MailVo;
-import com.banchan.myhome.domain.MySaveFolder;
 
 @Component
 public class SendMail {
@@ -23,12 +19,8 @@ public class SendMail {
 	@Autowired
 	private JavaMailSenderImpl mailSender;
 	
-	@Autowired
-	private MySaveFolder mysavefolder;
-
 	
 	public void sendMail(MailVo vo) {
-		String sendfile = mysavefolder.getSendfile();
 		MimeMessagePreparator mp = new MimeMessagePreparator() {
 
 			@Override
@@ -43,29 +35,11 @@ public class SendMail {
 				 */
 				
 				// 두 번째 인자 true는 멀티 파트 메시지를 사용하곘다는 의미입니다.
-				MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
+				MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
 				helper.setFrom(vo.getFrom());
 				helper.setTo(vo.getTo());
 				helper.setSubject(vo.getSubject());
-				
-				//1. 문자로만 전송하는 경우
-				//두 번째 이자는 html을 사용하겠다는 뜻입니다.
-				//helper.setText(vo.getContext(), true);
-				
-				//2. 이미지를 내장해서 보내는 경우
-				//cid(content id)
-				String content = "<img src='cid:Home'>" + vo.getContent();
-				helper.setText(content, true);
-				
-				
-				FileSystemResource file = new FileSystemResource(new File(sendfile));
-				// addInline메서드의 첫 번째 메서드에는 cid(content id)를 지정합니다.
-				helper.addInline("Home", file);
-				
-				//3. 파일을 첨부해서 보내는 경우
-				// 첫 번째 인자 : 첨부될 파일의 이름입니다.
-				// 두 번째 인자 : 첨부파일
-				helper.addAttachment("딸기.jpg", file);
+				helper.setText(vo.getContent());
 				
 			}// prepare() end
 			

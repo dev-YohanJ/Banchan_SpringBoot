@@ -36,4 +36,6 @@ public interface MemberMapper {
 	public int nickcheck2(Member m);
 
 	public int member_update(Member m);
+
+	public Member isemail(String email);
 }

@@ -27,4 +27,4 @@ values('ccccc', '1', '이름3', '01012341234', 'email3@naver.com', '서울시 �
 
 select * from member;
 
-delete from MEMBER where id = 'admin';
+delete from MEMBER where id = 'ksb8332';

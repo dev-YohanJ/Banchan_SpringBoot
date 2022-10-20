@@ -40,5 +40,11 @@ public interface MyMapper {
 	public int wish_check(Wish w);
 
 	public int wish_delete(Wish w);
+
+	public int buy_insert(Buy b);
+
+	public int buy_check(Buy b);
+
+	public int buy_delete(Buy b);
 	
 }
