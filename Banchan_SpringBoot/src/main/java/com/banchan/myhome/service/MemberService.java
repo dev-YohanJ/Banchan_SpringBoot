@@ -38,4 +38,6 @@ public interface MemberService {
 	public int nickcheck2(Member m);
 
 	public int member_update(Member m);
+
+	public int isemail(String email);
 }

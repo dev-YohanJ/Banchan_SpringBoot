@@ -128,4 +128,22 @@
 		and		item_id = #{item_id2}
 	</delete>
 	
+	<insert id="buy_insert">
+		insert into buy_list
+		values
+		(buy_listId_seq.nextval, #{item_id2}, #{member_id})
+	</insert>
+	
+	<select id="buy_check" resultType="int">
+		select count(*) from buy_list
+		where	member_id = #{member_id}
+		and 	item_id = #{item_id2}
+	</select>
+	
+	<delete id="buy_delete">
+		delete from buy_list
+		where	member_id = #{member_id}
+		and		item_id = #{item_id2}
+	</delete>
+	
 </mapper>

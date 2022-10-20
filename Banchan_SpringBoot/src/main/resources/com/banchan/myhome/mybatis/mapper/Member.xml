@@ -12,6 +12,10 @@
 		select * from member where nickname = #{nickname}
 	</select>
 	
+	<select id="isemail" resultType="member">
+		select * from member where email = #{email}
+	</select>
+	
 	<select id="nickcheck2" resultType="int">
 		select count(*) from member
 		where nickname = #{nickname}

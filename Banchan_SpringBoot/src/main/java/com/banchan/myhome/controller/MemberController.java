@@ -24,19 +24,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.banchan.myhome.domain.MailVo;
 import com.banchan.myhome.domain.Member;
 import com.banchan.myhome.service.MemberService;
+import com.naver.myhome.task.SendMail;
 
 @RestController
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	private MemberService memberservice;
+	private SendMail sendMail;
 	
 	@Autowired
-	public MemberController(MemberService memberservice) {
+	public MemberController(MemberService memberservice, SendMail sendMail) {
 		this.memberservice = memberservice;
+		this.sendMail = sendMail;
 	}
+	
+	@GetMapping(value = "/email/naver")
+	public int email_naver(String email) {
+		MailVo vo = new MailVo();
+		vo.setTo(email);
+		Random r = new Random();
+		int random = r.nextInt(100000000)+ 111111111;
+		vo.setContent("오늘의반찬의 인증번호는 " + random + "입니다.");
+		logger.info(vo.getContent());
+		sendMail.sendMail(vo);
+		
+		return random;
+	}
+	
 	
 	@PostMapping(value = "/members/logout")
 	public String logout(HttpSession session) {
@@ -63,6 +81,11 @@ public class MemberController {
 	@GetMapping(value="/members/nickcheck")
 	public int nickcheck(String nickname) {
 		return memberservice.isnick(nickname);
+	}
+	
+	@GetMapping(value="/members/emailcheck")
+	public int emailcheck(String email) {
+		return memberservice.isemail(email);
 	}
 	
 	@PostMapping(value="/members/new")

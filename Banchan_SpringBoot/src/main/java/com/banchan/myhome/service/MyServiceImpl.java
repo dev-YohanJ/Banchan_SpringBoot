@@ -113,4 +113,19 @@ public class MyServiceImpl implements MyService {
 		return dao.wish_delete(w);
 	}
 
+	@Override
+	public int buy_insert(Buy b) {
+		return dao.buy_insert(b);
+	}
+
+	@Override
+	public int buy_check(Buy b) {
+		return dao.buy_check(b);
+	}
+
+	@Override
+	public int buy_delete(Buy b) {
+		return dao.buy_delete(b);
+	}
+
 }

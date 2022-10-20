@@ -143,5 +143,11 @@ public class MemberServiceImpl implements MemberService {
 		return dao.member_update(m);
 	}
 
+	@Override
+	public int isemail(String email) {
+		Member rmember = dao.isemail(email);
+		return (rmember==null) ? -1 : 1;	//-1은 아이디가 존재하지 않는 경우, 1은 존재하는 경우
+	}
+
 	
 }

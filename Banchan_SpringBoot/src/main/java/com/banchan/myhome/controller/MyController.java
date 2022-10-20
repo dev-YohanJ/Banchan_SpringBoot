@@ -164,4 +164,19 @@ public class MyController {
 		return myservice.wish_delete(w);
 	}
 	
+	@GetMapping(value = "buy/add")
+	public int wish_insert(Buy b) {
+		return myservice.buy_insert(b);
+	}
+	
+	@GetMapping(value = "buy/check")
+	public int wish_check(Buy b) {
+		return myservice.buy_check(b);
+	}
+	
+	@DeleteMapping(value = "buy/delete")
+	public int wish_delete(Buy b) {
+		return myservice.buy_delete(b);
+	}
+	
 }
