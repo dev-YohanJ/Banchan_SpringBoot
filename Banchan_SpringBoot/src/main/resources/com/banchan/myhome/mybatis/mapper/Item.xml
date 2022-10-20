@@ -88,8 +88,9 @@
 	   from ( select rownum rnum, b.*
 			   from ( select *
 			   		  from item 
-					  <include refid="search_"/>
-					  order by id
+			   		  where seller != 'admin'
+						  <include refid="search_"/>
+						  order by id
 				  	  )b
 				where rownum &lt;= #{end}
 			)

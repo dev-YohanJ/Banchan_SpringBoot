@@ -4,8 +4,8 @@ create table item(
    name      		varchar2(30),
    seller    		varchar2(20) references member(id) on delete cascade,
    price      		number,
-   image      		varchar2(50),
-   original			varchar2(50),
+   image      		varchar2(300),
+   original			varchar2(300),
    description      varchar2(4000),
    location      	varchar2(50),
    allergy      	varchar2(50),
@@ -33,3 +33,5 @@ insert into item
 values(itemId_seq.nextval, '반찬3', 'ccccc', 3000, 'itemImage', 'original', '반찬설명3', '종로구 봉익동', '새우', 0, sysdate, 1);
 
 select * from item;
+
+select * from ( select rownum rnum, b.* from ( select * from item where seller != 'admin' and name like '테스트' or location like '테스트' order by id )b where rownum <= 10 ) where rnum >= 1 and rnum <= 10

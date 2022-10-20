@@ -146,8 +146,11 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		// 총 페이지 수
 		int maxpage = (listcount + limit - 1) / limit;
 		
+		if(page>maxpage) {
+			page=maxpage;
+		}
 		
-		list = itemService.getSearchList(index, search_word, page, limit);
+		list = itemService.getSearchList(index, search_word, page, limit); // search 리스트
 		
 		//만약 maxpage가 2이고 page도 2인 경우
 		//2페이지의 목록의 수가 한 개인 상태에서 남은 항목 한개를 삭제한 경우
@@ -155,7 +158,6 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		if(page>maxpage) {
 			page=maxpage;
 		}
-		
 		
 		// 현재 페이지에 보여줄 시작 페이지 수(1, 11, 21 등...)
 		int startpage = ((page - 1) / 10) * 10 + 1;
@@ -166,7 +168,7 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		if(endpage > maxpage)
 			endpage = maxpage;
 		
-		List<Item> boardlist = itemService.getItemList(page, limit); // 리스트를 받아옴
+//		List<Item> boardlist = itemService.getItemList(page, limit); // 전체 리스트를 받아옴
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", page);
@@ -174,8 +176,8 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		map.put("startpage", startpage);
 		map.put("endpage", endpage);
 		map.put("listcount", listcount);
-		map.put("boardlist", boardlist);
-		map.put("boardlist1", list);
+//		map.put("boardlist", boardlist); // 전체 리스트
+		map.put("boardlist1", list); // search 리스트
 		map.put("limit", limit);
 		map.put("search_field", index);
 		map.put("search_word", search_word);
