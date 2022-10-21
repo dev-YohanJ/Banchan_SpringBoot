@@ -70,6 +70,8 @@
 	  update item 
 	  set 
 		     name=#{name},
+		     price=#{price},
+		     location=#{location},
 		     description=#{description},
 		     image=#{image, jdbcType=VARCHAR}, 
 		     original=#{original, jdbcType=VARCHAR}
@@ -79,7 +81,7 @@
 	<delete id="itemDelete">
 		<![CDATA[
 			delete from item
-			where id = #{id} 
+			where id = #{id}
 		]]>
 	</delete>
 	
@@ -90,7 +92,7 @@
 			   		  from item 
 			   		  where seller != 'admin'
 						  <include refid="search_"/>
-						  order by id
+						  order by id desc
 				  	  )b
 				where rownum &lt;= #{end}
 			)

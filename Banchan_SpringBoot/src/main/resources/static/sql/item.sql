@@ -34,4 +34,6 @@ values(itemId_seq.nextval, '반찬3', 'ccccc', 3000, 'itemImage', 'original', '�
 
 select * from item;
 
+delete from item where seller = 'admin';
+
 select * from ( select rownum rnum, b.* from ( select * from item where seller != 'admin' and name like '테스트' or location like '테스트' order by id )b where rownum <= 10 ) where rnum >= 1 and rnum <= 10

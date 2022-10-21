@@ -260,6 +260,7 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		logger.info("글 작성자 :" + itemdata.getSeller());
 		logger.info("글 제목 :" + itemdata.getName());
 		logger.info("글 가격 :" + itemdata.getPrice());
+//		logger.info("글 주소 :" + itemdata.getLocation());
 		logger.info("글 내용 :" + itemdata.getDescription());
 	
 		
