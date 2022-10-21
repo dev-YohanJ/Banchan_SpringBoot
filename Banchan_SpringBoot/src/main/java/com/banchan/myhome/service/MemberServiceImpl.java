@@ -149,5 +149,26 @@ public class MemberServiceImpl implements MemberService {
 		return (rmember==null) ? -1 : 1;	//-1은 아이디가 존재하지 않는 경우, 1은 존재하는 경우
 	}
 
+	@Override
+	public int id_find(String name, String email) {
+		return dao.id_find(name, email);
+	}
+
+	@Override
+	public String id_find2(String email) {
+		Member m = dao.id_find2(email);
+		return m.getId();
+	}
+
+	@Override
+	public int id_find3(String id, String email) {
+		return dao.id_find3(id, email);
+	}
+
+	@Override
+	public int pass_change(Member m) {
+		return dao.pass_change(m);
+	}
+
 	
 }

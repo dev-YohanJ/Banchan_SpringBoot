@@ -16,6 +16,29 @@
 		select * from member where email = #{email}
 	</select>
 	
+	<select id="id_find" resultType="int">
+		select count(*) from member
+		where name = #{name}
+		and email = #{email}
+	</select>
+	
+	<select id="id_find3" resultType="int">
+		select count(*) from member
+		where id = #{id}
+		and email = #{email}
+	</select>
+	
+	<update id="pass_change">
+		update 	member
+		set		password = #{password}
+		where	id = #{id}
+	</update>
+	
+	<select id="id_find2" resultType="member">
+		select * from member
+		where email = #{email}
+	</select>
+	
 	<select id="nickcheck2" resultType="int">
 		select count(*) from member
 		where nickname = #{nickname}

@@ -55,6 +55,61 @@ public class MemberController {
 		return random;
 	}
 	
+	@GetMapping(value = "/id/find")
+	public int id_find(String name, String email) {
+		
+		int result = memberservice.id_find(name, email);
+		
+		if (result == 1) {
+			MailVo vo = new MailVo();
+			vo.setTo(email);
+			Random r = new Random();
+			int random = r.nextInt(100000000)+ 111111111;
+			vo.setContent("오늘의반찬의 인증번호는 " + random + "입니다.");
+			logger.info(vo.getContent());
+			sendMail.sendMail(vo);
+			
+			return random;
+		}
+		
+		return -1;
+	}
+	
+	@GetMapping(value = "/id/find3")
+	public int id_find3(String id, String email) {
+		
+		int result = memberservice.id_find3(id, email);
+		
+		if (result == 1) {
+			MailVo vo = new MailVo();
+			vo.setTo(email);
+			Random r = new Random();
+			int random = r.nextInt(100000000)+ 111111111;
+			vo.setContent("오늘의반찬의 인증번호는 " + random + "입니다.");
+			logger.info(vo.getContent());
+			sendMail.sendMail(vo);
+			
+			return random;
+		}
+		
+		return -1;
+	}
+	
+	@GetMapping(value = "/id/find/{email}")
+	public String id_find2(@PathVariable String email) {
+		
+		String id = memberservice.id_find2(email);
+		
+		return id;
+	}
+	
+	@PatchMapping(value = "/password/change")
+	public int pass_change(@RequestBody Member m) {
+		
+		int result = memberservice.pass_change(m);
+		
+		return result;
+	}
 	
 	@PostMapping(value = "/members/logout")
 	public String logout(HttpSession session) {

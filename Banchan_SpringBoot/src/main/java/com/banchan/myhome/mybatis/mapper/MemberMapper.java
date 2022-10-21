@@ -38,4 +38,12 @@ public interface MemberMapper {
 	public int member_update(Member m);
 
 	public Member isemail(String email);
+
+	public int id_find(String name, String email);
+
+	public Member id_find2(String email);
+
+	public int id_find3(String id, String email);
+
+	public int pass_change(Member m);
 }
