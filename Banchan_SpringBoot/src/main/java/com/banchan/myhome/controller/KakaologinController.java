@@ -13,23 +13,23 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class KakaologinController {
-	@RequestMapping(value = "/login", method = {RequestMethod.GET})
+	@RequestMapping(value = "/main", method = {RequestMethod.GET})
 	@ResponseBody
 	public String main() {
-		String url = "https://kauth.kakao.com/oauth/authorize?client_id=da289785112f84899419754fc94000ae&redirect_uri=http://localhost:8080/login/kakao&response_type=code";
+		String url = "https://kauth.kakao.com/oauth/authorize?client_id=da289785112f84899419754fc94000ae&redirect_uri=http://localhost:8088/banchan/login/kakao&response_type=code";
 		System.out.println("login 컨트롤러 접근");
 		return url;
 	}
 	
-	@RequestMapping(value="/login/kakao")
-	public void kakaoCallback(@RequestParam String code) {
-		System.out.println("kakao callback 컨트롤러 접근");
-		System.out.println(code);
-	}
+//	@RequestMapping(value="/login/kakao")
+//	public void kakaoCallback(@RequestParam String code) {
+//		System.out.println("kakao callback 컨트롤러 접근");
+//		System.out.println(code);
+//	}
 
 	KakaoAPI kakaoApi = new KakaoAPI();
 	
-	@RequestMapping(value="/kakao_login/kakao")
+	@RequestMapping(value="/login/kakao")
 	public RedirectView kakaoCallback(@RequestParam String code, HttpSession session) {
 		System.out.println("kakao callback 컨트롤러 접근");
 		System.out.println(code);
@@ -51,11 +51,12 @@ public class KakaologinController {
 		
 		if(userInfo.get("email") != null) {
 			session.setAttribute("userId", userInfo.get("email"));
+			session.setAttribute("id", userInfo.get("email"));
 			session.setAttribute("access_token", access_token);
 		}
 		
 		redirectView.addStaticAttribute("email", userInfo.get("email"));
-		redirectView.setUrl("http://localhost:8081");
+		redirectView.setUrl("http://localhost:8081/banchan/main");
 			
 		return redirectView;
 	}
