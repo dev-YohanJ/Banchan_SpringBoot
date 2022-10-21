@@ -48,6 +48,7 @@ public class MemberController {
 		vo.setTo(email);
 		Random r = new Random();
 		int random = r.nextInt(100000000)+ 111111111;
+		vo.setSubject("오늘의 반찬입니다.");
 		vo.setContent("오늘의반찬의 인증번호는 " + random + "입니다.");
 		logger.info(vo.getContent());
 		sendMail.sendMail(vo);
@@ -65,6 +66,7 @@ public class MemberController {
 			vo.setTo(email);
 			Random r = new Random();
 			int random = r.nextInt(100000000)+ 111111111;
+			vo.setSubject("오늘의 반찬입니다.");
 			vo.setContent("오늘의반찬의 인증번호는 " + random + "입니다.");
 			logger.info(vo.getContent());
 			sendMail.sendMail(vo);
@@ -85,6 +87,7 @@ public class MemberController {
 			vo.setTo(email);
 			Random r = new Random();
 			int random = r.nextInt(100000000)+ 111111111;
+			vo.setSubject("오늘의 반찬입니다.");
 			vo.setContent("오늘의반찬의 인증번호는 " + random + "입니다.");
 			logger.info(vo.getContent());
 			sendMail.sendMail(vo);
