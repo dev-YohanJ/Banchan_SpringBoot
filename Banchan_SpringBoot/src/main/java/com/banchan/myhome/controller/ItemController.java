@@ -1,6 +1,9 @@
 package com.banchan.myhome.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -107,17 +111,25 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 				}
 				
 			for(MultipartFile loadfile : uploadfile ) {
-			String fileName = loadfile.getOriginalFilename(); //원래 파일명
-			item.setOriginal(fileName); //원래 파일명 저장
-			
-			
-			String fileDBName = fileDBName(fileName, saveFolder);
-			logger.info("UploadfileDBName = " + "/" + fileDBName);
-			
-			// transferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장합니다.
-			loadfile.transferTo(new File(saveFolder + "/" + fileDBName));
-			uploadfilenames += fileDBName + ",";
-			
+				String fileName = loadfile.getOriginalFilename(); //원래 파일명
+				item.setOriginal(fileName); //원래 파일명 저장
+				
+				
+				String fileDBName = fileDBName(fileName, saveFolder);
+				logger.info("UploadfileDBName = " + "/" + fileDBName);
+				
+				
+				// transferTo(File path) : 업로드한 파일을 매개변수의 경로에 저장합니다.
+//				loadfile.transferTo(new File(saveFolder + "/" + fileDBName));
+				Path savePath = Paths.get(saveFolder + "/" + fileDBName);
+				FileCopyUtils.copy(loadfile.getInputStream(), new FileOutputStream(savePath.toFile()));
+				uploadfilenames += fileDBName + ",";
+				
+//				File isEx = new File(saveFolder + "/" + fileDBName);
+//				while(!isEx.exists()) {
+//					logger.info("while문 입니다.");
+//				}
+				
 			}
 			//바뀐 파일명으로 저장
 			item.setImage(uploadfilenames);	
@@ -126,6 +138,10 @@ private static final Logger logger = LoggerFactory.getLogger(ItemController.clas
 		
 		itemService.insertItem(item); //저장메서드 호출
 		itemService.insertSell(item); // 솔빈 sell_list DB 추가
+		
+		
+		
+		
 		return "success";
 	}
 
