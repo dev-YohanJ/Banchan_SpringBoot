@@ -14,5 +14,5 @@ public class ErrorProcess implements ErrorController {
 	public String goIndex() {
 		logger.info("error");
 		return "index.html";
-	}
+	} 
 }
