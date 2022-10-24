@@ -12,13 +12,13 @@
 		insert into item
 		(id, name, seller, price, 
 		 image, original, 
-		 description, location, allergy, 
+		 description, location, 
 		 readcount, regdate, status
 		 ) 
 		 values 
 		 (#{id}, #{name}, #{seller}, #{price},
 		  #{image, jdbcType=VARCHAR}, #{original, jdbcType=VARCHAR},
-		  #{description}, #{location}, #{allergy}, 
+		  #{description}, #{location}, 
 		  #{readcount}, SYSDATE, #{status})
 	</insert>
 	
